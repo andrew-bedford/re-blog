@@ -32,6 +32,9 @@
         <a class="dismiss">🗙</a>
     </div>
 
+    <script src="/_framework/blazor.webassembly.js"></script>
+    <script src="/_content/MudBlazor/MudBlazor.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script>
         // HTML anchor navigation does not appear to be functional in Blazor, using JavaScript instead.
         function scrollTo(id) {
@@ -44,9 +47,43 @@
                 });
             }
         }
+
+        function scrollToTop() {
+            document.documentElement.scrollTop = 0;
+        }
+
+        function initActiveTableOfContentsLink() {
+            activeTableOfContentsLink = $('nav a').first();
+            if (activeTableOfContentsLink) {
+                activeTableOfContentsLink.addClass("active");
+            }
+        }
+
+        // Update the class of the table of contents links to reflect the position of the user.
+        var activeTableOfContentsLink = null;
+        $(document).on("scroll", function(event) {
+            var scrollPos = $(document).scrollTop() + 64;
+            $('nav a').each(function () {
+                var link = $(this);
+                var id = "#" + link.attr("href").split('"')[1];
+                var element = $(id);
+                if (element.position().top <= scrollPos) {
+                    $('nav a').removeClass("active");
+                    activeTableOfContentsLink = link;
+                }
+                else{
+                    link.removeClass("active");
+                }
+            });
+
+            if (activeTableOfContentsLink) {
+                activeTableOfContentsLink.addClass("active");
+            }
+            else {
+                activeTableOfContentsLink = $('nav a').first();
+            }
+        });
     </script>
-    <script src="/_framework/blazor.webassembly.js"></script>
-    <script src="/_content/MudBlazor/MudBlazor.min.js"></script>
 </body>
 
 </html>

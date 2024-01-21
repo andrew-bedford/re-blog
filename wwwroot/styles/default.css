@@ -1,4 +1,5 @@
 html, body { font-family: 'Inter', sans-serif;}
+*[id] { scroll-margin-top: 64px; }
 
 #splashscreen { background: #fff url('/images/logo.png') center center no-repeat; color:#15171a; height:100%; position:absolute; text-align:center; width:100%; z-index:1000; }
 .logo { cursor:pointer; margin-left:-12px; margin-right:14px; margin-top:0px; }
@@ -15,7 +16,7 @@ post img { display:block; height:auto; margin-bottom:20px; margin-left:auto; mar
 p { font-size:16.5px; line-height:25.56px; }
 
 .mud-drawer-header { display:none; }
+nav ul li { margin:5px 0 5px 15px; }
+nav ul li a.active { font-weight:bold; }
 
 hr { display:block; margin:100px auto; max-width:580px; border-top:solid 1px #C0C0C0; }
-
-*[id] { scroll-margin-top: 64px; }

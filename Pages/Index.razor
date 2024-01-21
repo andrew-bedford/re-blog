@@ -8,29 +8,18 @@
 <PageTitle>re/blog</PageTitle>
 
 <MudAppBar Elevation="0">
-    @* <MudImage Src="images/logo.png" Alt="re/blog" Class="logo" Elevation="1" Height="32" Width="32" /> *@
     <MudAvatar>
         ab
         @* <MudImage Src="images/avatar.png" /> *@
         <!-- TODO: Allow user to configure their avatar from a global configuration file -->
     </MudAvatar>
+
     <MudSpacer />
 
     <MudIconButton Icon="@Icons.Material.Filled.ArrowBack" OnClick="PreviousButton" Title="Previous" />
     <MudIconButton Icon="@Icons.Material.Filled.Timeline" OnClick="OpenTimelineDialog" Title="Timeline" />
     <MudIconButton Icon="@Icons.Material.Filled.ArrowForward" OnClick="NextButton" Title="Next" />
-    @* <MudGrid Class="pl-15" Style="max-width:780px;">
-        <MudItem xs="6">
-            <MudButton Href="/" StartIcon="@Icons.Material.Filled.ArrowBack" Style="text-transform:none;" Variant="Variant.Text">
-                Title of previous post?
-            </MudButton>
-        </MudItem>
-        <MudItem xs="6" Style="text-align:right;">
-            <MudButton Href="/" EndIcon="@Icons.Material.Filled.ArrowForward" Style="text-transform:none;" Variant="Variant.Text">
-                Next post?
-            </MudButton>
-        </MudItem>
-    </MudGrid> *@
+
     <MudSpacer />
     @* <MudIconButton Icon="@Icons.Material.Filled.Search" OnClick="OpenSearchDialog" Title="Search" /> *@
     @* <MudIconButton Icon="@Icons.Material.Filled.Timeline" OnClick="OpenTimelineDialog" Title="Timeline" /> *@
@@ -38,14 +27,14 @@
     @* <MudDivider style="background-color:#606060; height:35px; margin:0 23px 0 10px;" Vertical="true" /> *@
     @* <MudIconButton Icon="@Icons.Material.Filled.Info" Title="Info" /> <!-- Author, Published, Last modified? --> *@
     @* <MudIconButton Icon="@Icons.Material.Filled.Label" Title="Tags" /> *@
-    <MudIconButton Icon="@Icons.Material.Filled.Toc"
-        OnClick="ToggleRightDrawer" Title="Contents" />
+    <MudIconButton Icon="@Icons.Material.Filled.Toc" OnClick="ToggleRightDrawer" Title="Contents" />
 </MudAppBar>
 <MudDrawer @bind-Open="Application.IsRightDrawerOpen" ClipMode="DrawerClipMode.Docked"
     Variant="DrawerVariant.Responsive" Anchor="Anchor.Right">
     <MudDrawerHeader>
+        Contents
     </MudDrawerHeader>
-    
+
     @if (post != null)
     {
         @((MarkupString)post.TableOfContents)
@@ -53,22 +42,16 @@
 
 </MudDrawer>
 
-@if (post != null) {
-
+@if (post != null)
+{
     <post>
-        <!-- TODO: Date -->
         <date>@post.Created.ToShortDateString()</date>
-
-        <!-- TODO: Header? -->
-
         @((MarkupString)post.Html)
-        @* <MudImage Src="images/header.jpg" /> *@
-
-        <!-- TODO: Tags -->
         <MudStack Justify="Justify.FlexEnd" Row="true">
-            @foreach (string tag in post.Tags) {
-                <MudChip Size="Size.Small">@tag</MudChip>
-            }
+            @foreach (string tag in post.Tags)
+                {
+                    <MudChip Size="Size.Small">@tag</MudChip>
+                }
         </MudStack>
     </post>
 }
@@ -78,8 +61,6 @@
         Size="Size.Medium" />
 </MudScrollToTop>
 
-<Re.Blog.Components.NavigationAnchor />
-
 @code {
     [Parameter] public string? id { get; set; }
 
@@ -88,13 +69,13 @@
 
     private HotKeysContext? HotKeysContext;
     private string[]? index;
-    private Post post;
+    private Post? post;
 
     protected override async Task OnInitializedAsync()
     {
         this.HotKeysContext = this.HotKeys.CreateContext()
-            .Add(ModCode.None, Code.ArrowLeft, PreviousButton, exclude: Exclude.InputNonText)
-            .Add(ModCode.None, Code.ArrowRight, NextButton, exclude: Exclude.InputNonText);
+        .Add(ModCode.None, Code.ArrowLeft, async () => await PreviousButton(), exclude: Exclude.InputNonText)
+        .Add(ModCode.None, Code.ArrowRight, async () => await NextButton(), exclude: Exclude.InputNonText);
     }
 
     private void ToggleRightDrawer()
@@ -102,21 +83,31 @@
         Application.IsRightDrawerOpen = !Application.IsRightDrawerOpen;
     }
 
-    private void PreviousButton()
+    private async Task PreviousButton()
     {
+        if (post == null)
+            return;
+
         int currentIndex = Application.Posts.IndexOf(post);
-        if (currentIndex > 0) {
+        if (currentIndex > 0)
+        {
             post = Application.Posts.ElementAt(currentIndex - 1);
             Navigation.NavigateTo(post.Id);
+            await JSRuntime.InvokeVoidAsync("scrollToTop");
         }
     }
 
-    private void NextButton()
+    private async Task NextButton()
     {
+        if (post == null)
+            return;
+
         int currentIndex = Application.Posts.IndexOf(post);
-        if (currentIndex < Application.Posts.Count - 1) {
+        if (currentIndex < Application.Posts.Count - 1)
+        {
             post = Application.Posts.ElementAt(currentIndex + 1);
             Navigation.NavigateTo(post.Id);
+            await JSRuntime.InvokeVoidAsync("scrollToTop");
         }
     }
 
@@ -137,11 +128,17 @@
     }
 
     private void OpenTimelineDialog()
-        {
-            DialogOptions closeOnEscapeKey = new DialogOptions() { CloseButton = true, CloseOnEscapeKey = true, FullWidth = true, MaxWidth = MaxWidth.Large };
+    {
+        DialogOptions closeOnEscapeKey = new DialogOptions()
+            {
+                CloseButton = true,
+                CloseOnEscapeKey = true,
+                FullWidth = true,
+                MaxWidth = MaxWidth.Large
+            };
 
-            DialogService.Show<Re.Blog.Components.TimelineDialog>("", closeOnEscapeKey);
-        }
+        DialogService.Show<Re.Blog.Components.TimelineDialog>("", closeOnEscapeKey);
+    }
 
     private async Task LoadPostsFromIndex()
     {
@@ -161,7 +158,8 @@
             Application.Posts.Add(post);
         }
 
-        if (id != null && Application.Posts.Count > 0) {
+        if (id != null && Application.Posts.Count > 0)
+        {
             post = Application.Posts.Where(p => p.Id == id).Single();
         }
 
@@ -169,16 +167,20 @@
     }
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        await JSRuntime.InvokeVoidAsync("initActiveTableOfContentsLink");
+
         if (firstRender)
         {
             await LoadPostsFromIndex();
         }
-        else if (id == null && Application.Posts.Count > 0) {
+        else if (id == null && Application.Posts.Count > 0)
+        {
             post = Application.Posts.Last();
             Navigation.NavigateTo(Application.Posts.Last().Id);
 
         }
-        else if (id != null && Application.Posts.Count > 0) {
+        else if (id != null && Application.Posts.Count > 0)
+        {
             post = Application.Posts.Where(p => p.Id == id).Single();
         }
     }
