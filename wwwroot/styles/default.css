@@ -15,7 +15,9 @@ post { display:block; margin-bottom:100px; margin-left:auto; margin-right:auto; 
 post img { display:block; height:auto; margin-bottom:20px; margin-left:auto; margin-right:auto; margin-top:20px; max-width:100%; }
 p { font-size:16.5px; line-height:25.56px; margin-bottom:13px; }
 
-.mud-drawer-header { display:none; }
+.mud-drawer { top:calc(var(--mud-appbar-height) - var(--mud-appbar-height)/4) !important; }
+
+nav { margin-left:10px; }
 nav ul li { margin:5px 0 5px 15px; }
 nav ul li a.active { font-weight:bold; }
 

@@ -59,15 +59,27 @@
             }
         }
 
+        function getTitleScrollPosition() {
+            var link = $('nav a').first();
+            var id = "#" + link.attr("href").split('"')[1];
+            var element = $(id);
+            return element.position().top;
+        }
+
         // Update the class of the table of contents links to reflect the position of the user.
         var activeTableOfContentsLink = null;
         $(document).on("scroll", function(event) {
-            var scrollPos = $(document).scrollTop() + 64;
+            var scrollPos = $(document).scrollTop() ;
+            var titlePos = getTitleScrollPosition();
+            if (scrollPos <= titlePos) {
+                activeTableOfContentsLink = $('nav a').first();
+            }
+
             $('nav a').each(function () {
                 var link = $(this);
                 var id = "#" + link.attr("href").split('"')[1];
                 var element = $(id);
-                if (element.position().top <= scrollPos) {
+                if (element.position().top <= scrollPos + 64) {
                     $('nav a').removeClass("active");
                     activeTableOfContentsLink = link;
                 }
