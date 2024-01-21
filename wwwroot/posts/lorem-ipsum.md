@@ -2,6 +2,7 @@
 id: lorem-ipsum
 title: Lorem Ipsum
 abstract: Text that will be displayed
+created: 2024-01-02
 tags: example, documentation, re/blog
 ---
 ![](images/header.jpg)

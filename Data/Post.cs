@@ -18,7 +18,7 @@ namespace Re.Blog.Data
         public string Path { get; set; }
         public string Abstract { get; set; }
         public IEnumerable<string> Tags { get; set; } = new List<string>();
-        public DateTime Created { get; set; }
+        public DateTime? Created { get; set; }
         public DateTime Modified { get; set; }
 
         public string Markdown { get; set; }
@@ -55,6 +55,12 @@ namespace Re.Blog.Data
                     else if (line.StartsWith("abstract:"))
                     {
                         this.Abstract = line.Split("abstract:")[1].Trim();
+                    }
+                    else if (line.StartsWith("created:"))
+                    {
+                        System.Globalization.CultureInfo provider = System.Globalization.CultureInfo.InvariantCulture;
+                        var date = line.Split("created:")[1].Trim();
+                        this.Created = DateTime.ParseExact(date, "yyyy-MM-dd", provider);
                     }
                     else if (line.StartsWith("tags:"))
                     {

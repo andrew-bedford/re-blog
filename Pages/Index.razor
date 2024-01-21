@@ -45,7 +45,9 @@
 @if (post != null)
 {
     <post>
-        <date>@post.Created.ToShortDateString()</date>
+        @if (post.Created != null) {
+            <date>@post.Created?.ToString("MMM d, yyyy")</date>
+        }
         @((MarkupString)post.Html)
         <MudStack Justify="Justify.FlexEnd" Row="true">
             @foreach (string tag in post.Tags)
