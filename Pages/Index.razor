@@ -1,5 +1,6 @@
 ﻿@page "/"
 @page "/{id}"
+@using Toolbelt.Blazor.HotKeys2
 @inject HttpClient Http
 @inject NavigationManager Navigation
 @inject IJSRuntime JSRuntime
@@ -80,12 +81,21 @@
 <Re.Blog.Components.NavigationAnchor />
 
 @code {
-    [Parameter]
-    public string? id { get; set; }
+    [Parameter] public string? id { get; set; }
 
     [Inject] IDialogService DialogService { get; set; } = default!;
+    [Inject] HotKeys HotKeys { get; set; } = default!;
+
+    private HotKeysContext? HotKeysContext;
     private string[]? index;
     private Post post;
+
+    protected override async Task OnInitializedAsync()
+    {
+        this.HotKeysContext = this.HotKeys.CreateContext()
+            .Add(ModCode.None, Code.ArrowLeft, PreviousButton, exclude: Exclude.InputNonText)
+            .Add(ModCode.None, Code.ArrowRight, NextButton, exclude: Exclude.InputNonText);
+    }
 
     private void ToggleRightDrawer()
     {
@@ -173,4 +183,8 @@
         }
     }
 
+    public void Dispose()
+    {
+        this.HotKeysContext?.Dispose();
+    }
 }
