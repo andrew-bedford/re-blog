@@ -16,9 +16,9 @@
 
     <MudSpacer />
 
-    <MudIconButton Icon="@Icons.Material.Filled.ArrowBack" OnClick="PreviousButton" Title="Previous" />
+    <MudIconButton Disabled="post != null ? Application.Posts.IndexOf(post) == 0 : true" Icon="@Icons.Material.Filled.ArrowBack" OnClick="PreviousButton" Title="Previous" />
     <MudIconButton Icon="@Icons.Material.Filled.Timeline" OnClick="OpenTimelineDialog" Title="Timeline" />
-    <MudIconButton Icon="@Icons.Material.Filled.ArrowForward" OnClick="NextButton" Title="Next" />
+    <MudIconButton Disabled="post != null ? Application.Posts.IndexOf(post) == Application.Posts.Count - 1 : true" Icon="@Icons.Material.Filled.ArrowForward" OnClick="NextButton" Title="Next" />
 
     <MudSpacer />
     @* <MudIconButton Icon="@Icons.Material.Filled.Search" OnClick="OpenSearchDialog" Title="Search" /> *@
