@@ -1,0 +1,21 @@
+html, body { font-family: 'Inter', sans-serif;}
+
+#splashscreen { background: #fff url('/images/logo.png') center center no-repeat; color:#15171a; height:100%; position:absolute; text-align:center; width:100%; z-index:1000; }
+.logo { cursor:pointer; margin-left:-12px; margin-right:14px; margin-top:0px; }
+
+date { color:#9DAAB6; text-align:right; display:block; width:100%; }
+
+h1 { font-size: 56px; font-weight:700; letter-spacing:-0.04em; line-height:1.1em; }
+h1.title { margin-bottom:24px; margin-left:-5px; }
+h2 { font-size:23px; letter-spacing:-0.02em; margin-top:24px; }
+h3 { font-size:17px; letter-spacing:-0.008em; margin-top:24px; }
+h4 { font-size:17px; margin-top:24px; scroll-margin-top:40px;}
+post { display:block; margin-bottom:100px; margin-left:auto; margin-right:auto; max-width:680px; }
+post img { display:block; height:auto; margin-bottom:20px; margin-left:auto; margin-right:auto; margin-top:20px; max-width:100%; }
+p { font-size:16.5px; line-height:25.56px; }
+
+.mud-drawer-header { display:none; }
+
+hr { display:block; margin:100px auto; max-width:580px; border-top:solid 1px #C0C0C0; }
+
+*[id] { scroll-margin-top: 64px; }

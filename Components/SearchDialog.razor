@@ -1,0 +1,45 @@
+@inject IDialogService DialogService
+
+<MudDialog>
+    <DialogContent>
+        <MudAutocomplete ValueChanged="OnChange" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Search" AutoFocus="true" id="searchTextField" 
+            CoerceText="false" CoerceValue="true" Label="Search posts by title" ResetValueOnEmptyText="true" SearchFunc="@SearchPosts"
+            style="color:rgba(255, 255, 255, 0.698); left:50%; margin-top:-5px; position:fixed; transform: translate(-50%, -50%); width:95%;"
+            T="Data.Post">
+                <ItemTemplate Context="post">
+                    <MudText>
+                        <MudIcon Class="mb-n1 mr-3"/>@($"{post.Title}")
+                    </MudText>
+                </ItemTemplate>
+                <ItemSelectedTemplate Context="post">
+                    <MudText>
+                        <MudIcon Class="mb-n1 mr-3"/>@($"{post.Title}")
+                    </MudText>
+                </ItemSelectedTemplate>
+            </MudAutocomplete>
+    </DialogContent>
+    <DialogActions>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] MudDialogInstance? MudDialog { get; set; }
+    [Parameter] public Action? OnChanged { get; set; }
+
+    private async Task<IEnumerable<Data.Post>> SearchPosts(string term)
+    {
+        // if text is null or empty, show complete list
+        if (string.IsNullOrEmpty(term))
+            return Application.Posts;
+
+        return Application.Posts.Where(l => l.Title.Contains(term, StringComparison.InvariantCultureIgnoreCase));
+    }
+
+    private void OnChange(Data.Post? post)
+    {
+        if (post != null) {
+            OnChanged?.Invoke();
+            MudDialog?.Close(DialogResult.Ok(true));
+        }
+    }
+}

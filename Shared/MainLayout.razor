@@ -1,0 +1,18 @@
+﻿@inherits LayoutComponentBase
+
+<MudThemeProvider Theme="Application.DefaultTheme" />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+    <MudMainContent>
+        <MudContainer >
+            @Body
+            <MudScrollToTop />
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
+
+@code {
+
+}
