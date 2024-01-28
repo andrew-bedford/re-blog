@@ -2,56 +2,26 @@
 
 <MudDialog>
     <DialogContent>
-        <MudTimeline style="margin-left:-50%" TimelineAlign="TimelineAlign.Start">
-            <MudTimelineItem Color="Color.Dark" Elevation="25">
-                <ItemOpposite>
-                    <MudText Color="Color.Dark" Typo="Typo.h6">Aug 2020</MudText>
-                </ItemOpposite>
-                <ItemContent>
-                    <MudPaper Elevation="0" Class="mt-n1">
-                        <MudText Color="Color.Dark" Typo="Typo.h6" GutterBottom="true">MudBlazor Emerges</MudText>
-                        <MudText Typo="Typo.body2">A repository pops up on Github named MudBlazor.</MudText>
-                        <MudText Typo="Typo.body2">The development has already started and the most common components
-                            can be
-                            found already.</MudText>
-                    </MudPaper>
-                </ItemContent>
-            </MudTimelineItem>
-            <MudTimelineItem Color="Color.Primary" Elevation="25" TimelineAlign="TimelineAlign.End">
-                <ItemOpposite>
-                    <MudText Color="Color.Primary" Typo="Typo.h6">Oct 2020</MudText>
-                </ItemOpposite>
-                <ItemContent>
-                    <MudPaper Elevation="0" Class="mt-n1">
-                        <MudText Color="Color.Primary" Typo="Typo.h6" GutterBottom="true">MudBlazor Unleashed!</MudText>
-                        <MudText Typo="Typo.body2">The first version is released and uploaded as v1.0.7.</MudText>
-                    </MudPaper>
-                </ItemContent>
-            </MudTimelineItem>
-            <MudTimelineItem Color="Color.Secondary" Elevation="25">
-                <ItemOpposite>
-                    <MudText Color="Color.Secondary" Typo="Typo.h6" GutterBottom="true">Nov 2020</MudText>
-                </ItemOpposite>
-                <ItemContent>
-                    <MudStack>
-
-                        <MudPaper style="cursor:pointer;" Elevation="0" Class="mt-n1">
-                            <MudText Color="Color.Secondary" Typo="Typo.h6" GutterBottom="true">First Minor</MudText>
-                            <MudText Typo="Typo.body2">MudBlazor gets its first minor with version 1.1.0.</MudText>
-                            <MudText Typo="Typo.body2">TimerPicker, AutoComplete and Charts join the library as well as
-                                T
-                                versions of our inputs and selects.</MudText>
-                        </MudPaper>
-                        <MudPaper Elevation="0" Class="mt-n1">
-                            <MudText Color="Color.Secondary" Typo="Typo.h6" GutterBottom="true">First Minor</MudText>
-                            <MudText Typo="Typo.body2">MudBlazor gets its first minor with version 1.1.0.</MudText>
-                            <MudText Typo="Typo.body2">TimerPicker, AutoComplete and Charts join the library as well as
-                                T
-                                versions of our inputs and selects.</MudText>
-                        </MudPaper>
-                    </MudStack>
-                </ItemContent>
-            </MudTimelineItem>
+        <!-- TODO: We should only apply `margin-left:-50%` on screens above a certain resolution -->
+        <MudTimeline style="margin-left:-50%" >
+            @foreach (var group in GroupPostsByMonths())
+            {
+                <MudTimelineItem Color="Color.Dark" Elevation="25" TimelineAlign="TimelineAlign.End">
+                    <ItemOpposite>
+                        <MudText Color="Color.Dark" Typo="Typo.h6">@group.Key</MudText>
+                    </ItemOpposite>
+                    <ItemContent>
+                        @foreach (var post in group)
+                        {
+                            <MudPaper Elevation="0">
+                                <MudLink Color="Color.Dark" GutterBottom="true" Href="@post.Id" Style="@GetPostLinkStyle(post)" Typo="Typo.h6">@post.Title</MudLink>
+                                <!-- Optionally display and abstract below the post's title -->
+                                @* <MudText Typo="Typo.body2">@post.Abstract</MudText> *@
+                            </MudPaper>
+                        }
+                    </ItemContent>
+                </MudTimelineItem>
+            }
         </MudTimeline>
 
     </DialogContent>
@@ -63,4 +33,18 @@
 {
     [CascadingParameter] MudDialogInstance? MudDialog { get; set; }
     [Parameter] public Action? OnChanged { get; set; }
+
+    private IEnumerable<IGrouping<string?, Post>> GroupPostsByMonths()
+    {
+        return Application.Posts.OrderByDescending(p => p.Created).GroupBy(p => p.Created?.ToString("MMM yyyy"));
+    }
+
+    private string GetPostLinkStyle(Post post)
+    {
+        if (post == Application.ActivePost) {
+            return "font-weight:bold;";
+        }
+
+        return "";
+    }
 }

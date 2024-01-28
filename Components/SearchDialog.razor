@@ -32,7 +32,7 @@
         if (string.IsNullOrEmpty(term))
             return Application.Posts;
 
-        return Application.Posts.Where(l => l.Title.Contains(term, StringComparison.InvariantCultureIgnoreCase));
+        return await Task.FromResult(Application.Posts.Where(l => l.Title.Contains(term, StringComparison.InvariantCultureIgnoreCase)));
     }
 
     private void OnChange(Data.Post? post)

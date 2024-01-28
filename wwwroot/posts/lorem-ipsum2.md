@@ -1,7 +1,7 @@
 ---
 id: lorem-ipsum-2
 title: Lorem Ipsum 2
-abstract: Text that will be displayed
+abstract: Text that will be displayed 2
 created: 2024-02-01
 tags: example, documentation, re/blog
 ---

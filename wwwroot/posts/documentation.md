@@ -1,7 +1,7 @@
 ---
 id: documentation
 title: Documentation
-abstract: Text that will be displayed
+abstract: Abstract of the documentation.
 created: 2024-01-01
 tags: example, documentation, re/blog
 ---

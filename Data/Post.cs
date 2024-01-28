@@ -10,20 +10,17 @@ namespace Re.Blog.Data
 {
     class Post
     {
-        [Inject]
-        public NavigationManager Navigation { get; set; }
-
         public string Id { get; set; }
-        public string Title { get; set; }
+        public string Title { get; set; } = "";
         public string Path { get; set; }
-        public string Abstract { get; set; }
+        public string Abstract { get; set; } = "";
         public IEnumerable<string> Tags { get; set; } = new List<string>();
         public DateTime? Created { get; set; }
-        public DateTime Modified { get; set; }
+        public DateTime? Modified { get; set; }
 
         public string Markdown { get; set; }
         public string Html { get; set; }
-        public string TableOfContents { get; set; }
+        public string TableOfContents { get; set; } = "";
 
         public Post(string path, string markdown)
         {

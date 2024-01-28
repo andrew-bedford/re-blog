@@ -16,41 +16,37 @@
 
     <MudSpacer />
 
-    <MudIconButton Disabled="post != null ? Application.Posts.IndexOf(post) == 0 : true" Icon="@Icons.Material.Filled.ArrowBack" OnClick="PreviousButton" Title="Previous" />
+    <MudIconButton Disabled="Application.ActivePost != null ? Application.Posts.IndexOf(Application.ActivePost) == 0 : true" Icon="@Icons.Material.Filled.ArrowBack" OnClick="PreviousButton" Title="Previous" />
     <MudIconButton Icon="@Icons.Material.Filled.Timeline" OnClick="OpenTimelineDialog" Title="Timeline" />
-    <MudIconButton Disabled="post != null ? Application.Posts.IndexOf(post) == Application.Posts.Count - 1 : true" Icon="@Icons.Material.Filled.ArrowForward" OnClick="NextButton" Title="Next" />
+    <MudIconButton Disabled="Application.ActivePost != null ? Application.Posts.IndexOf(Application.ActivePost) == Application.Posts.Count - 1 : true" Icon="@Icons.Material.Filled.ArrowForward" OnClick="NextButton" Title="Next" />
 
     <MudSpacer />
     @* <MudIconButton Icon="@Icons.Material.Filled.Search" OnClick="OpenSearchDialog" Title="Search" /> *@
-    @* <MudIconButton Icon="@Icons.Material.Filled.Timeline" OnClick="OpenTimelineDialog" Title="Timeline" /> *@
-    @* <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Title="GitHub" /> *@
-    @* <MudDivider style="background-color:#606060; height:35px; margin:0 23px 0 10px;" Vertical="true" /> *@
-    @* <MudIconButton Icon="@Icons.Material.Filled.Info" Title="Info" /> <!-- Author, Published, Last modified? --> *@
-    @* <MudIconButton Icon="@Icons.Material.Filled.Label" Title="Tags" /> *@
+    <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Href="https://github.com/andrew-bedford/re-blog" Target="_blank" Title="GitHub" />
     <MudIconButton Icon="@Icons.Material.Filled.Toc" OnClick="ToggleRightDrawer" Title="Contents" />
 </MudAppBar>
-<MudDrawer @bind-Open="Application.IsRightDrawerOpen" ClipMode="DrawerClipMode.Docked"
-    Variant="DrawerVariant.Responsive" Anchor="Anchor.Right">
+<MudDrawer @bind-Open="Application.IsRightDrawerOpen" Anchor="Anchor.Right" ClipMode="DrawerClipMode.Docked" DisableOverlay="true"
+    Elevation="1" Variant="DrawerVariant.Temporary">
     <MudDrawerHeader>
-        Contents
+        <h3>Contents</h3>
     </MudDrawerHeader>
 
-    @if (post != null)
+    @if (Application.ActivePost != null)
     {
-        @((MarkupString)post.TableOfContents)
+        @((MarkupString)Application.ActivePost.TableOfContents)
     }
 
 </MudDrawer>
 
-@if (post != null)
+@if (Application.ActivePost != null)
 {
     <post>
-        @if (post.Created != null) {
-            <date>@post.Created?.ToString("MMM d, yyyy")</date>
+        @if (Application.ActivePost.Created != null) {
+            <date>@Application.ActivePost.Created?.ToString("MMM d, yyyy")</date>
         }
-        @((MarkupString)post.Html)
+        @((MarkupString)Application.ActivePost.Html)
         <MudStack Justify="Justify.FlexEnd" Row="true">
-            @foreach (string tag in post.Tags)
+            @foreach (string tag in Application.ActivePost.Tags)
                 {
                     <MudChip Size="Size.Small">@tag</MudChip>
                 }
@@ -71,10 +67,10 @@
 
     private HotKeysContext? HotKeysContext;
     private string[]? index;
-    private Post? post;
 
     protected override async Task OnInitializedAsync()
     {
+        await base.OnInitializedAsync();
         this.HotKeysContext = this.HotKeys.CreateContext()
         .Add(ModCode.None, Code.ArrowLeft, async () => await PreviousButton(), exclude: Exclude.InputNonText)
         .Add(ModCode.None, Code.ArrowRight, async () => await NextButton(), exclude: Exclude.InputNonText);
@@ -87,28 +83,28 @@
 
     private async Task PreviousButton()
     {
-        if (post == null)
+        if (Application.ActivePost == null)
             return;
 
-        int currentIndex = Application.Posts.IndexOf(post);
+        int currentIndex = Application.Posts.IndexOf(Application.ActivePost);
         if (currentIndex > 0)
         {
-            post = Application.Posts.ElementAt(currentIndex - 1);
-            Navigation.NavigateTo(post.Id);
+            Application.ActivePost = Application.Posts.ElementAt(currentIndex - 1);
+            Navigation.NavigateTo(Application.ActivePost.Id);
             await JSRuntime.InvokeVoidAsync("scrollToTop");
         }
     }
 
     private async Task NextButton()
     {
-        if (post == null)
+        if (Application.ActivePost == null)
             return;
 
-        int currentIndex = Application.Posts.IndexOf(post);
+        int currentIndex = Application.Posts.IndexOf(Application.ActivePost);
         if (currentIndex < Application.Posts.Count - 1)
         {
-            post = Application.Posts.ElementAt(currentIndex + 1);
-            Navigation.NavigateTo(post.Id);
+            Application.ActivePost = Application.Posts.ElementAt(currentIndex + 1);
+            Navigation.NavigateTo(Application.ActivePost.Id);
             await JSRuntime.InvokeVoidAsync("scrollToTop");
         }
     }
@@ -138,8 +134,10 @@
                 FullWidth = true,
                 MaxWidth = MaxWidth.Large
             };
+        DialogParameters parameters = new();
+        parameters.Add("OnChanged", (Action)StateHasChanged);
 
-        DialogService.Show<Re.Blog.Components.TimelineDialog>("", closeOnEscapeKey);
+        DialogService.Show<Re.Blog.Components.TimelineDialog>("", parameters, closeOnEscapeKey);
     }
 
     private async Task LoadPostsFromIndex()
@@ -162,7 +160,7 @@
 
         if (id != null && Application.Posts.Count > 0)
         {
-            post = Application.Posts.Where(p => p.Id == id).Single();
+            Application.ActivePost = Application.Posts.Where(p => p.Id == id).Single();
         }
 
         StateHasChanged();
@@ -177,13 +175,14 @@
         }
         else if (id == null && Application.Posts.Count > 0)
         {
-            post = Application.Posts.Last();
+            // Redirect the user to the latest post by default.
+            Application.ActivePost = Application.Posts.Last();
             Navigation.NavigateTo(Application.Posts.Last().Id);
-
         }
-        else if (id != null && Application.Posts.Count > 0)
+        else if (id != null && Application.Posts.Count > 0 && Application.ActivePost != null && Application.ActivePost.Id != id)
         {
-            post = Application.Posts.Where(p => p.Id == id).Single();
+            Application.ActivePost = Application.Posts.Where(p => p.Id == id).Single();
+            StateHasChanged();
         }
     }
 
