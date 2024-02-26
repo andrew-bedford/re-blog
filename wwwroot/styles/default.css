@@ -11,14 +11,19 @@ h1.title { margin-bottom:24px; margin-left:-5px; }
 h2 { font-size:23px; letter-spacing:-0.02em; margin-top:24px; }
 h3 { font-size:17px; letter-spacing:-0.008em; margin-top:24px; }
 h4 { font-size:17px; margin-top:24px; scroll-margin-top:40px;}
-post { display:block; margin-bottom:100px; margin-left:auto; margin-right:auto; max-width:680px; }
+post { display:block; font-size:16.5px; margin-bottom:100px; margin-left:auto; margin-right:auto; max-width:680px; }
+post h1 { margin:15px 0 10px -5px; }
 post img { display:block; height:auto; margin-bottom:20px; margin-left:auto; margin-right:auto; margin-top:20px; max-width:100%; }
-p { font-size:16.5px; line-height:25.56px; margin-bottom:13px; }
+post ul { margin-bottom:10px; }
+post a { text-decoration:underline; }
+post li { list-style-type: square; margin-left:15px;}
+post pre { margin:20px 0; font-size: 13px; }
+post p { font-size:16.5px; line-height:25.56px; margin-bottom:13px; }
 
 .mud-drawer { top:calc(var(--mud-appbar-height) - var(--mud-appbar-height)/4) !important; }
 
 nav { margin-left:10px; }
-nav ul li { margin:5px 0 5px 15px; }
+nav ul li { margin:5px 5px 5px 15px; }
 nav ul li a.active { font-weight:bold; }
 
 hr { display:block; margin:100px auto; max-width:580px; border-top:solid 1px #C0C0C0; }

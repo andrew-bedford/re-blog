@@ -3,16 +3,16 @@
 @using Toolbelt.Blazor.HotKeys2
 @inject HttpClient Http
 @inject NavigationManager Navigation
-@inject IJSRuntime JSRuntime
+@inject IJSRuntime JavaScript
 
 <PageTitle>re/blog</PageTitle>
 
 <MudAppBar Elevation="0">
-    <MudAvatar>
-        ab
-        @* <MudImage Src="images/avatar.png" /> *@
-        <!-- TODO: Allow user to configure their avatar from a global configuration file -->
-    </MudAvatar>
+    <a href="https://andrew-bedford.ca">
+        <MudAvatar>
+            <MudImage Src="images/avatar.jpeg" />
+        </MudAvatar>
+    </a>
 
     <MudSpacer />
 
@@ -21,8 +21,6 @@
     <MudIconButton Disabled="Application.ActivePost != null ? Application.Posts.IndexOf(Application.ActivePost) == Application.Posts.Count - 1 : true" Icon="@Icons.Material.Filled.ArrowForward" OnClick="NextButton" Title="Next" />
 
     <MudSpacer />
-    @* <MudIconButton Icon="@Icons.Material.Filled.Search" OnClick="OpenSearchDialog" Title="Search" /> *@
-    <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Href="https://github.com/andrew-bedford/re-blog" Target="_blank" Title="GitHub" />
     <MudIconButton Icon="@Icons.Material.Filled.Toc" OnClick="ToggleRightDrawer" Title="Contents" />
 </MudAppBar>
 <MudDrawer @bind-Open="Application.IsRightDrawerOpen" Anchor="Anchor.Right" ClipMode="DrawerClipMode.Docked" DisableOverlay="true"
@@ -91,7 +89,7 @@
         {
             Application.ActivePost = Application.Posts.ElementAt(currentIndex - 1);
             Navigation.NavigateTo(Application.ActivePost.Id);
-            await JSRuntime.InvokeVoidAsync("scrollToTop");
+            await JavaScript.InvokeVoidAsync("scrollToTop");
         }
     }
 
@@ -105,7 +103,7 @@
         {
             Application.ActivePost = Application.Posts.ElementAt(currentIndex + 1);
             Navigation.NavigateTo(Application.ActivePost.Id);
-            await JSRuntime.InvokeVoidAsync("scrollToTop");
+            await JavaScript.InvokeVoidAsync("scrollToTop");
         }
     }
 
@@ -167,7 +165,11 @@
     }
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await JSRuntime.InvokeVoidAsync("initActiveTableOfContentsLink");
+        await JavaScript.InvokeVoidAsync("initActiveTableOfContentsLink");
+        await JavaScript.InvokeVoidAsync("activateSyntaxHighlighting");
+        await JavaScript.InvokeVoidAsync("activateFotorama");
+        await JavaScript.InvokeVoidAsync("renderMermaidDiagrams");
+
 
         if (firstRender)
         {

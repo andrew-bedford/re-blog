@@ -1,5 +1,4 @@
 [
-    "documentation.md",
-    "lorem-ipsum.md",
-    "lorem-ipsum2.md"
+    "quick-introduction-to-coq.md",
+    "using-roslyn-for-static-analysis.md"
 ]
