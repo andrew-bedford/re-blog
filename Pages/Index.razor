@@ -142,7 +142,7 @@
 
     private async Task LoadPostsFromIndex()
     {
-        index = await Http.GetFromJsonAsync<string[]?>("posts/index.json");
+        index = await Http.GetFromJsonAsync<string[]?>($"posts/index.json?{DateTime.Now.Ticks}");
         if (index == null)
         {
             Console.Error.WriteLine("Could not fetch index (posts/index.json).");
@@ -152,7 +152,7 @@
         foreach (string path in index)
         {
             Console.WriteLine(path);
-            string markdown = await Http.GetStringAsync(new Uri($"posts/{path}", UriKind.Relative));
+            string markdown = await Http.GetStringAsync(new Uri($"posts/{path}?{DateTime.Now.Ticks}", UriKind.Relative));
 
             Post post = new Post(path, markdown);
             Application.Posts.Add(post);

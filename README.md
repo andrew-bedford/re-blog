@@ -33,7 +33,6 @@ dotnet watch run
 ```
 
 ## Tasks
- - [ ] Add support for cache invalidation.
  - [ ] Add build tasks that would make it easier to publish/deploy the blog.
  - [ ] Create global configuration file to allows users to do things such as set the avatar image, blog name.
  - [ ] (?) Add metainformation panel.
