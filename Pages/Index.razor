@@ -149,7 +149,6 @@
 
         foreach (string path in index)
         {
-            Console.WriteLine(path);
             string markdown = await Http.GetStringAsync(new Uri($"posts/{path}?{DateTime.Now.Ticks}", UriKind.Relative));
 
             Post post = new Post(path, markdown);

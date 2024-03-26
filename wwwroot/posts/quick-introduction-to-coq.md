@@ -2,7 +2,7 @@
 id: quick-introduction-to-coq
 title: Quick introduction to Coq
 abstract: Learn the basics of Coq, an interactive theorem prover that is based on the calculus of inductive constructions.
-created: 2024-01-01
+created: 2018-08-01
 tags: coq, proof
 ---
 # Quick introduction to Coq
@@ -13,7 +13,7 @@ simple task can be exceedingly hard. To help address these issues,
 computer scientists have created tools that help humans write and prove
 theorems: *automatic theorem provers* and *interactive theorem provers*.
 
-**Automatic theorem provers** : As the name implies, automatic theorem
+**Automatic theorem provers**: As the name implies, automatic theorem
 provers automatically prove theorems. They usually can only prove
 domain-specific theorems. For instance,
 [Beagle](https://bitbucket.org/peba123/beagle/src/master/) specializes
@@ -119,9 +119,8 @@ Foundations).
 ### admit
 
 Used to admit that goal or subgoal is true. This tactic can be used to
-temporarily skip over\
-goals/subgoals. If a proof contains an admit, `Admitted` must be used
-instead of `Qed`.
+temporarily skip over goals/subgoals. If a proof contains an admit, `Admitted`
+must be used instead of `Qed`.
 
 ``` {.coq}
 Lemma modus_ponens:
@@ -133,8 +132,7 @@ Admitted.
 
 ### apply/eapply
 Used to apply hypotheses/lemmas/theorem to the current goal. In the
-following example,\
-we have as hypothesis that (p -\> q)
+following example, we have as hypothesis that (p -\> q)
 
 ``` {.coq}
 Lemma modus_ponens:

@@ -2,7 +2,7 @@
 id: using-roslyn-for-static-analysis
 title: Using roslyn for static analysis
 abstract: Learn how to use Roslyn (i.e., the .NET Compiler Platform) to statically analyze C# projects.
-created: 2024-01-01
+created: 2020-10-01
 tags: c#, static analysis
 ---
 # Using roslyn for static analysis

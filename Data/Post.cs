@@ -86,7 +86,6 @@ namespace Re.Blog.Data
             {
                 if (Regex.IsMatch(line, "^#"))
                 {
-                    Console.WriteLine(line);
                     builder.AppendLine(line);
                 }
             }
