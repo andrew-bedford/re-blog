@@ -1,7 +1,7 @@
 # re/blog
-A simple client-side markdown blog engine, built for fun! One of the goals is to add a plugin system that would allow users to easily customize it.
+A simple client-side markdown blog engine, built for fun!
 
-*Warning*: Not SEO optimized.
+Choosing WebAssembly for a blog may appear strange, after all most search engines would have difficulty indexing its content, but this is actually a feature of re/blog. It is perfect for those who want to maintain a public blog, perhaps for their friends and family, while still retaining some privacy by making it less discoverable.
 
 ## Features
 Clean default interface with a content navigation pane, which allows users to skip to specific sections.
@@ -32,9 +32,38 @@ For development:
 dotnet watch run
 ```
 
+## Hosting
+Since this is a WebAssembly application that runs entirely on the client-side, it can be hosted pretty much anywhere. Note however that for direct links to work, the server's 404 page must point to the blog's `index.html`. This is due to the way that Blazor WebAssembly does routing (see [Host and deploy ASP.NET Core Blazor WebAssembly](https://learn.microsoft.com/en-us/aspnet/core/blazor/host-and-deploy/webassembly?view=aspnetcore-8.0#rewrite-urls-for-correct-routing) for explanation).
+
+Here is how this can be done using nginx and apache httpd.
+
+### nginx
+```
+server {
+    listen 80;
+
+    server_name blog.url.com;
+
+    root /path/to/blog/wwwroot;
+    index index.html;
+    error_page 404 /index.html;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
+```
+
+### httpd
+Using a `.htaccess` page:
+```
+ErrorDocument 404 /index.html
+```
+
 ## Tasks
  - [ ] Add support for cache invalidation.
  - [ ] Add build tasks that would make it easier to publish/deploy the blog.
  - [ ] Create global configuration file to allows users to do things such as set the avatar image, blog name.
+ - [ ] Add a plugin system that would allow users to easily customize it.
  - [ ] (?) Add metainformation panel.
  - [ ] (?) Add support for comments.
