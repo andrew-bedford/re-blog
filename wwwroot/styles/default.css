@@ -1,7 +1,7 @@
 html, body { font-family: 'Inter', sans-serif;}
 *[id] { scroll-margin-top: 64px; }
 
-#splashscreen { background: #fff url('images/logo.png') center center no-repeat; color:#15171a; height:100%; position:absolute; text-align:center; width:100%; z-index:1000; }
+#splashscreen { background: #fff url('../images/logo.png') center center no-repeat; color:#15171a; height:100%; position:absolute; text-align:center; width:100%; z-index:1000; }
 .logo { cursor:pointer; margin-left:-12px; margin-right:14px; margin-top:0px; }
 
 date { color:#9DAAB6; text-align:right; display:block; width:100%; }
