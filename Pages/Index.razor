@@ -66,6 +66,14 @@
     private HotKeysContext? HotKeysContext;
     private string[]? index;
 
+    async void LocationChanged(object sender, LocationChangedEventArgs e)
+    {
+        try {
+            await JavaScript.InvokeVoidAsync("reAnalytics");
+        }
+        catch(Exception) {}
+    }
+
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
@@ -172,6 +180,7 @@
 
         if (firstRender)
         {
+            Navigation.LocationChanged += LocationChanged;
             await LoadPostsFromIndex();
         }
         else if (id == null && Application.Posts.Count > 0)
@@ -189,6 +198,7 @@
 
     public void Dispose()
     {
-        this.HotKeysContext?.Dispose();
+        HotKeysContext?.Dispose();
+        Navigation.LocationChanged -= LocationChanged;
     }
 }
