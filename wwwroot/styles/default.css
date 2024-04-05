@@ -18,7 +18,7 @@ p { font-size:16.5px; line-height:25.56px; margin-bottom:13px; }
 .mud-drawer { top:calc(var(--mud-appbar-height) - var(--mud-appbar-height)/4) !important; }
 
 nav { margin-left:10px; }
-nav ul li { margin:5px 0 5px 15px; }
-nav ul li a.active { font-weight:bold; }
+nav ul li { margin:5px 5px 5px 15px; }
+nav ul li a.active { -webkit-text-stroke: 0.7px var(--mud-palette-text-primary); }
 
 hr { display:block; margin:100px auto; max-width:580px; border-top:solid 1px #C0C0C0; }
