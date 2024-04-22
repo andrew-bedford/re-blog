@@ -1,7 +1,9 @@
 # re/blog
 A simple client-side markdown blog engine, built for fun!
 
-Choosing WebAssembly for a blog may appear strange, after all most search engines would have difficulty indexing its content, but this is actually a feature of re/blog. It is perfect for those who want to maintain a public blog, perhaps for their friends and family, while still retaining some privacy by making it less discoverable.
+Choosing WebAssembly for a blog may appear strange, after all most search engines would have difficulty indexing its content, but this is actually a feature of re/blog. It is perfect for those who want to maintain a public blog, perhaps for their friends and family, while still retaining some privacy by making it less discoverable. It also has the advantage of being deployable to static file hosts like GitHub Pages.
+
+If you are interested in making it more search engine-friendly, one option would be to convert your re/blog into a hosted application and enabling server-side prerendering. Or adding a post-build task that generates a `sitemap.xml` file.
 
 ## Features
 Clean default interface with a content navigation pane, which allows users to skip to specific sections.
