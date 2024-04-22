@@ -5,6 +5,7 @@ namespace Re.Blog.Data
 {
     static class Application
     {
+        public static List<Post> PublishedPosts = new();
         public static List<Post> Posts = new();
         public static Post? ActivePost = null;
         public static MudTheme DefaultTheme = new()
