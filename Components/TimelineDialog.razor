@@ -37,7 +37,7 @@
 
     private IEnumerable<IGrouping<string?, Post>> GroupPostsByMonths()
     {
-        return Application.Posts.OrderByDescending(p => p.Created).GroupBy(p => p.Created?.ToString("MMM yyyy"));
+        return Application.PublishedPosts.OrderByDescending(p => p.Created).GroupBy(p => p.Created?.ToString("MMM yyyy"));
     }
 
     private string GetPostLinkStyle(Post post)

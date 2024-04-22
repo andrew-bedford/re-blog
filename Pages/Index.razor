@@ -16,9 +16,9 @@
 
     <MudSpacer />
 
-    <MudIconButton Disabled="Application.ActivePost != null ? Application.Posts.IndexOf(Application.ActivePost) == 0 : true" Icon="@Icons.Material.Filled.ArrowBack" OnClick="PreviousButton" Title="Previous" />
+    <MudIconButton Disabled="@IsPreviousButtonDisabled()" Icon="@Icons.Material.Filled.ArrowBack" OnClick="PreviousButton" Title="Previous" />
     <MudIconButton Icon="@Icons.Material.Filled.Timeline" OnClick="OpenTimelineDialog" Title="Timeline" />
-    <MudIconButton Disabled="Application.ActivePost != null ? Application.Posts.IndexOf(Application.ActivePost) == Application.Posts.Count - 1 : true" Icon="@Icons.Material.Filled.ArrowForward" OnClick="NextButton" Title="Next" />
+    <MudIconButton Disabled="@IsNextButtonDisabled()" Icon="@Icons.Material.Filled.ArrowForward" OnClick="NextButton" Title="Next" />
 
     <MudSpacer />
     <MudIconButton Icon="@Icons.Material.Filled.Toc" OnClick="ToggleRightDrawer" Title="Contents" />
@@ -92,10 +92,10 @@
         if (Application.ActivePost == null)
             return;
 
-        int currentIndex = Application.Posts.IndexOf(Application.ActivePost);
+        int currentIndex = Application.PublishedPosts.IndexOf(Application.ActivePost);
         if (currentIndex > 0)
         {
-            Application.ActivePost = Application.Posts.ElementAt(currentIndex - 1);
+            Application.ActivePost = Application.PublishedPosts.ElementAt(currentIndex - 1);
             Navigation.NavigateTo(Application.ActivePost.Id);
             await JavaScript.InvokeVoidAsync("scrollToTop");
         }
@@ -106,10 +106,10 @@
         if (Application.ActivePost == null)
             return;
 
-        int currentIndex = Application.Posts.IndexOf(Application.ActivePost);
-        if (currentIndex < Application.Posts.Count - 1)
+        int currentIndex = Application.PublishedPosts.IndexOf(Application.ActivePost);
+        if (currentIndex < Application.PublishedPosts.Count - 1)
         {
-            Application.ActivePost = Application.Posts.ElementAt(currentIndex + 1);
+            Application.ActivePost = Application.PublishedPosts.ElementAt(currentIndex + 1);
             Navigation.NavigateTo(Application.ActivePost.Id);
             await JavaScript.InvokeVoidAsync("scrollToTop");
         }
@@ -161,10 +161,17 @@
 
             Post post = new Post(path, markdown);
             Application.Posts.Add(post);
+
+            if (post.IsDraft == false) {
+                Application.PublishedPosts.Add(post);
+            }
         }
 
         if (id != null && Application.Posts.Count > 0)
         {
+            // If the user has a direct link to the post, we load it, even if it is a draft.
+            // This allows users to preview their posts as it would appear on the blog before
+            // making them public.
             Application.ActivePost = Application.Posts.Where(p => p.Id == id).Single();
         }
 
@@ -183,11 +190,11 @@
             Navigation.LocationChanged += LocationChanged;
             await LoadPostsFromIndex();
         }
-        else if (id == null && Application.Posts.Count > 0)
+        else if (id == null && Application.PublishedPosts.Count > 0)
         {
             // Redirect the user to the latest post by default.
-            Application.ActivePost = Application.Posts.Last();
-            Navigation.NavigateTo(Application.Posts.Last().Id);
+            Application.ActivePost = Application.PublishedPosts.Last();
+            Navigation.NavigateTo(Application.ActivePost.Id);
         }
         else if (id != null && Application.Posts.Count > 0 && Application.ActivePost != null && Application.ActivePost.Id != id)
         {
@@ -200,5 +207,24 @@
     {
         HotKeysContext?.Dispose();
         Navigation.LocationChanged -= LocationChanged;
+    }
+
+    private string GetPageTitle()
+    {
+        if (Application.ActivePost != null) {
+            return $"Andrew Bedford: {Application.ActivePost.Title}";
+        }
+
+        return "Andrew Bedford";
+    }
+
+    private bool IsPreviousButtonDisabled()
+    {
+        return Application.ActivePost != null ? Application.PublishedPosts.IndexOf(Application.ActivePost) == 0 : true;
+    }
+
+    private bool IsNextButtonDisabled()
+    {
+        return Application.ActivePost != null ? Application.PublishedPosts.IndexOf(Application.ActivePost) == Application.PublishedPosts.Count - 1 : true;
     }
 }

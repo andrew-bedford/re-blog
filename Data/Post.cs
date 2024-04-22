@@ -17,6 +17,7 @@ namespace Re.Blog.Data
         public IEnumerable<string> Tags { get; set; } = new List<string>();
         public DateTime? Created { get; set; }
         public DateTime? Modified { get; set; }
+        public bool IsDraft { get; set; } = false;
 
         public string Markdown { get; set; }
         public string Html { get; set; }
@@ -62,6 +63,9 @@ namespace Re.Blog.Data
                     else if (line.StartsWith("tags:"))
                     {
                         this.Tags = line.Split("tags:")[1].Split(",").Select(t => t.Trim());
+                        if (this.Tags.Contains("draft")) {
+                            this.IsDraft = true;
+                        }
                     }
                 }
             }
