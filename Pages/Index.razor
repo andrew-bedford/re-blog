@@ -6,6 +6,11 @@
 @inject IJSRuntime JavaScript
 
 <PageTitle>@GetPageTitle()</PageTitle>
+<HeadContent>
+    <meta name="description" content="@GetPageDescription()" />
+    <meta name="keywords" content="@GetPageKeywords()" />
+    <meta property="og:title" content="@GetTitle()" />
+</HeadContent>
 
 <MudAppBar Elevation="0">
     <a href="https://andrew-bedford.ca">
@@ -209,6 +214,15 @@
         Navigation.LocationChanged -= LocationChanged;
     }
 
+    private string GetTitle()
+    {
+        if (Application.ActivePost != null) {
+            return $"{Application.ActivePost.Title}";
+        }
+
+        return "";
+    }
+
     private string GetPageTitle()
     {
         if (Application.ActivePost != null) {
@@ -216,6 +230,24 @@
         }
 
         return "Andrew Bedford";
+    }
+
+    private string GetPageDescription()
+    {
+        if (Application.ActivePost != null) {
+            return Application.ActivePost.Abstract;
+        }
+
+        return "";
+    }
+
+    private string GetPageKeywords()
+    {
+        if (Application.ActivePost != null) {
+            return String.Join(",", Application.ActivePost.Tags);
+        }
+
+        return "";
     }
 
     private bool IsPreviousButtonDisabled()
