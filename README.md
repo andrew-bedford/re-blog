@@ -27,6 +27,7 @@ Where `id` corresponds to the url slug to be used, so it should not contain any 
 
 After customizing `Pages/Index.razor` (e.g., specifying avatar), the blog can be published using:
 ```
+dotnet workload install wasm-tools
 dotnet publish
 ```
 For development:
