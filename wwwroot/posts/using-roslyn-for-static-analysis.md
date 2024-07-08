@@ -190,6 +190,21 @@ Which will output the following tree:
 
 In addition to the node kind, we can easily display lots of useful information such as the text corresponding to a specific node (using `node.GetText()`) and its location in the source code (using `node.GetLocation()`).
 
+### Analysis
+Roslyn's visitors can be used to traverse the syntax tree and identify code smells and potential problems. For example, we could detect resource leaks by looking for instances of `IDisposable` objects for which there is no call to `Dispose()` or that do not use `using`:
+```csharp
+FileStream f = File.OpenRead("foo.txt");
+f.Read(buffer, 0, 100);
+
+// should be
+
+using (FileStream f = File.OpenRead("foo.txt")) {
+    f.Read(buffer, 0, 100);
+}
+```
+
+One possible way to make it easier to query the syntax tree is to convert it to XML, supplement it with the information that we may need (e.g., location, type information) and then use LINQ to XML to find patterns.
+
 ### Rewriting
 Suppose that we want to detect cases where `if` statements have conditions of the form `x == x` (i.e., something that is always true), and that we want to replace the `if` statement with the body of the `then` block since the `else` block is never going to be executed.
 

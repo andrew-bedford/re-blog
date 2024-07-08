@@ -2,7 +2,7 @@
 id: quick-introduction-to-coq
 title: Quick introduction to Coq
 abstract: Learn the basics of Coq, an interactive theorem prover that is based on the calculus of inductive constructions.
-created: 2018-08-01
+created: 2018-08-15
 tags: coq, proof
 ---
 # Quick introduction to Coq
@@ -109,6 +109,10 @@ Extraction "imperative.ml" eval. (*Filename and function to extract*)
 
 This means that we can use Coq to not only be used to verify programs,
 but also generate certified programs.
+
+It is also possible to generate natural-language proofs using tools
+like [Coqatoo](https://github.com/andrew-bedford/coqatoo) and [Pcoq](https://www-sop.inria.fr/lemme/pcoq/), or proof trees using
+[Traf](https://github.com/hide-kawabata/traf).
 
 ## Tactics
 Tactics are functions/algorithms that transform propositions. In this
