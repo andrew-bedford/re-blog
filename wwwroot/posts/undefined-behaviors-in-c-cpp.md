@@ -3,7 +3,7 @@ id: detecting-undefined-behaviors-in-c-cpp
 title: Detecting undefined behaviors in C/C++
 abstract: 
 created: 2024-07-07
-tags: c, c++, static analysis
+tags: draft, c, c++, static analysis
 ---
 # Detecting undefined behaviors in C/C++
 
@@ -37,6 +37,6 @@ Some compilers may assign `INT_MAX` to `y`, while others may wraparound and retu
 #### Uninitialized variables
 ```
 int x;
-printf("%d", x); // UB: 
+printf("%d", x); // UB: The memory of x is uninitialized, so it contains a random value.
 ```
 

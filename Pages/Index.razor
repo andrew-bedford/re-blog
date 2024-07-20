@@ -1,5 +1,5 @@
 ﻿@page "/"
-@page "/{id}"
+@page "/posts/{id}"
 @using Toolbelt.Blazor.HotKeys2
 @inject HttpClient Http
 @inject NavigationManager Navigation
@@ -101,7 +101,7 @@
         if (currentIndex > 0)
         {
             Application.ActivePost = Application.PublishedPosts.ElementAt(currentIndex - 1);
-            Navigation.NavigateTo(Application.ActivePost.Id);
+            Navigation.NavigateTo($"posts/{Application.ActivePost.Id}");
             await JavaScript.InvokeVoidAsync("scrollToTop");
         }
     }
@@ -115,7 +115,7 @@
         if (currentIndex < Application.PublishedPosts.Count - 1)
         {
             Application.ActivePost = Application.PublishedPosts.ElementAt(currentIndex + 1);
-            Navigation.NavigateTo(Application.ActivePost.Id);
+            Navigation.NavigateTo($"posts/{Application.ActivePost.Id}");
             await JavaScript.InvokeVoidAsync("scrollToTop");
         }
     }
@@ -199,7 +199,7 @@
         {
             // Redirect the user to the latest post by default.
             Application.ActivePost = Application.PublishedPosts.Last();
-            Navigation.NavigateTo(Application.ActivePost.Id);
+            Navigation.NavigateTo($"posts/{Application.ActivePost.Id}");
         }
         else if (id != null && Application.Posts.Count > 0 && Application.ActivePost != null && Application.ActivePost.Id != id)
         {

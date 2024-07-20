@@ -3,14 +3,14 @@ id: why-write
 title: Why write?
 abstract: We write to remember more accurately, orient ourselves and our work, understand better, and evaluate what we think more objectively.
 created: 2024-07-01
-tags: draft, thoughts
+tags: thoughts
 ---
 
 # Why write?
 Whenever we gather information to answer a question that solves a problem, we become researchers. We may not always write down our answers and what we've learned, but we often rely on those who did. What some may not realize is that writing is much more than a communication tool, it is a thinking tool. Here are some of the ways that writing has helped me think over the years.
 
 ## Writing to remember
-Solving non-trivial problems often requires lots of research, lots of reading and lots of time. The amount of information involved is often greater than what one can hold in their mind. When dealing with such an amount of information, having some kind of organization system becomes a necessity. This is one of the reasons that lead me to develop re/log, my knowledge management system. Everyone's system is different and changes over time, so I encourage you to try many of them, to take the elements that you like from here and there, and make it your own.
+Solving non-trivial problems often requires lots of research, lots of reading and lots of time. The amount of information involved is often greater than what one can hold in their mind. When dealing with such an amount of information, having some kind of organization system becomes a necessity. Everyone's system is different and changes over time, so I encourage you to try many of them, to take the elements that you like from here and there, and make it your own.
 
 The importance of writing things down has become even moreso apparent to me as I became a father, and the months of sleep deprivation that comes with the job made me forgetful. I also like to think that my writing may help my daughter one day, long after I'm gone.
 
