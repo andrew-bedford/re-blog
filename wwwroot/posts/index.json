@@ -1,6 +1,6 @@
 [
     "quick-introduction-to-coq.md",
     "using-roslyn-for-static-analysis.md",
-    "to-open-source-or-not-to-open-source.md",
-    "why-write.md"
+    "why-write.md",
+    "to-open-source-or-not-to-open-source.md"
 ]
