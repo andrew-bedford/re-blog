@@ -2,5 +2,6 @@
     "quick-introduction-to-coq.md",
     "using-roslyn-for-static-analysis.md",
     "why-write.md",
-    "to-open-source-or-not-to-open-source.md"
+    "to-open-source-or-not-to-open-source.md",
+    "getting-started-with-clang-sanitizers.md"
 ]
