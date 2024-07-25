@@ -15,7 +15,7 @@
                         @foreach (var post in group)
                         {
                             <MudPaper Elevation="0">
-                                <MudLink Color="Color.Dark" GutterBottom="true" Href="@post.Id" OnClick="@(() => OnClickPostLink(post) )" Style="@GetPostLinkStyle(post)" Typo="Typo.h6">@post.Title</MudLink>
+                                <MudLink Color="Color.Dark" GutterBottom="true" Href="@("posts/"+post.Id)" OnClick="@(() => OnClickPostLink(post) )" Style="@GetPostLinkStyle(post)" Typo="Typo.h6">@post.Title</MudLink>
                                 <!-- Optionally display and abstract below the post's title -->
                                 @* <MudText Typo="Typo.body2">@post.Abstract</MudText> *@
                             </MudPaper>
