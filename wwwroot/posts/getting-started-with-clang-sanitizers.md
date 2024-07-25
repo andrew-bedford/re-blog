@@ -12,7 +12,11 @@ Sanitizers are runtime tools used to detect various types of bugs and undefined 
 Both [clang](https://clang.llvm.org/docs/index.html) and [gcc](https://gcc.gnu.org/onlinedocs/gcc/Instrumentation-Options.html) come with a set of integreated sanitizers that can be enable using specific flags. For the purposes of this article, we will focus on the ones from clang. More specifically, we will look at the most commonly used ones, how to enable them and how to interpret their results.
 
 ## Installation
-If you do not already have clang installed, you could install your distribution's version using its package manager (e.g., `sudo apt install clang clang++`), but chances are that it won't be a recent version. To install the latest stable version, LLVM provides a nice [shell script](https://apt.llvm.org/) that simplifies its installation:
+If you do not already have clang installed, you could install your distribution's version using its package manager:
+```
+sudo apt install clang clang++
+```
+However, chances are that it won't be a recent version. To install the latest stable version, LLVM provides a nice [shell script](https://apt.llvm.org/) that simplifies its installation:
 ```
 wget https://apt.llvm.org/llvm.sh
 chmod +x llvm.sh
@@ -25,6 +29,9 @@ sudo ./llvm.sh <version number>
 That's it, you should now have everything you need to start using sanitizers!
 
 ## Sanitizers
+
+Once you've recompiled your program with a sanitizer enabled, execute it as usual. The sanitizer will monitor its execution and report any detected issues on the standard output.
+
 ### AddressSanitizer
  (ASan) Detects memory errors such as out-of-bounds accesses, use-after-free, and memory leaks1.
 

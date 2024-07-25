@@ -6,33 +6,24 @@ created: 2018-08-15
 tags: coq, proof
 ---
 # Quick introduction to Coq
-Writing proofs can be a challenging task, but checking the correctness
-of a proof should be straightforward: read the proof line-by-line and
-validate each of its arguments. However in practice, this seemingly
-simple task can be exceedingly hard. To help address these issues,
-computer scientists have created tools that help humans write and prove
-theorems: *automatic theorem provers* and *interactive theorem provers*.
+Writing proofs can be a challenging task, but checking the correctness of a proof should be straightforward: read the proof line-by-line and
+validate each of its arguments. However in practice, this seemingly simple task can be exceedingly hard. To help address these issues,
+computer scientists have created tools that help humans write and prove theorems: *automatic theorem provers* and *interactive theorem provers*.
 
-**Automatic theorem provers**: As the name implies, automatic theorem
-provers automatically prove theorems. They usually can only prove
-domain-specific theorems. For instance,
-[Beagle](https://bitbucket.org/peba123/beagle/src/master/) specializes
-in first-order logic and MetiTarski specializes in numeric formulas
-verification. As their use is limited in the field of language-based
+**Automatic theorem provers**: As the name implies, automatic theorem provers automatically prove theorems. They usually can only prove
+domain-specific theorems. For instance, [Beagle](https://bitbucket.org/peba123/beagle/src/master/) specializes
+in first-order logic and MetiTarski specializes in numeric formulas verification. As their use is limited in the field of language-based
 security, we will instead focus on interactive theorem provers.
 
-**Interactive theorem provers**: Interactive theorem provers do not seek
-to automatically prove theorems, their main goal is instead to help
-users write error-free proofs. As the user writes the proof, the prover
-validates each argument and keeps track of what remains to be proved.
+**Interactive theorem provers**: Interactive theorem provers do not seek to automatically prove theorems, their main goal is instead to help
+users write error-free proofs. As the user writes the proof, the prover validates each argument and keeps track of what remains to be proved.
 Hence, this process results in a machine-checked proof.
 
-In the field of language-based security, [Coq](https://coq.inria.fr/)
-and [Isabelle](https://isabelle.in.tum.de/) are the two most popular
-theorem provers.
+In the field of language-based security, [Coq](https://coq.inria.fr/) and [Isabelle](https://isabelle.in.tum.de/) are the two most popular
+theorem provers. When I first learned of these tools, I chose to go with Coq because its syntax similar to [OCaml's](https://ocaml.org/), a language in which I had some experience.
 
 ## Programming
-Coq's language syntax is similar to [OCaml's](https://ocaml.org/).
+Before proving anything, we have to modelize whatever we are interesting in (e.g., protocol, program) using Coq's programming language. To help you with that, here is a quick reference guide.
 
 ### Defining constants
 Constants can be defined using the keyword `Definition`. For example:
@@ -46,10 +37,8 @@ The set of natural numbers can be defined inductively as follows:
       | O : nat
       | S : nat -> nat.
 
-This definition states that a natural number is either zero or the
-successor of a natural number. The successor here is defined as a
-function that takes a natural number and returns a natural number
-(`nat -> nat`).
+This definition states that a natural number is either zero or the successor of a natural number. The successor here is defined as a
+function that takes a natural number and returns a natural number (`nat -> nat`).
 
 #### Enumerations
 
@@ -57,16 +46,14 @@ function that takes a natural number and returns a natural number
       | false : bool
       | true : bool.
 
-For inductive definitions, the types are optional. That is, the
-following definition would be equivalent:
+For inductive definitions, the types are optional. That is, the following definition would be equivalent:
 
     Inductive bool : Set :=
       | false
       | true.
 
 ### Coinductive types
-Coq also supports coinductive types. This can be used to represent
-infinite data structures such as streams.
+Coq also supports coinductive types. This can be used to represent infinite data structures such as streams.
 
     CoInductive nat_stream : Type :=
       | Cons : nat -> nat_stream -> nat_stream.
@@ -86,19 +73,13 @@ Functions can be declared using the keyword `Function`.
     Check pred.
                                                             pred : nat -> nat
 
-One particularity of Coq is that it does not allow non-terminating
-functions; doing so would lead to logical inconsistencies.
+One particularity of Coq is that it does not allow non-terminating functions; doing so would lead to logical inconsistencies.
 
-To verify that a recursive function terminates, Coq uses a simple
-heuristic: it verifies that each recursive call reduces the size of
-arguments. Meaning that Coq will only accept recursive functions if the
-recursive calls use subterms of the original argument.
+To verify that a recursive function terminates, Coq uses a simple heuristic: it verifies that each recursive call reduces the size of arguments. Meaning that Coq will only accept recursive functions if the recursive calls use subterms of the original argument.
 
 ### Extraction
-One interesting feature of Coq is that it can extract and translate
-functions to other languages (Ocaml, Haskell or Scheme). For example,
-executing the code below would generate a file `imperative.ml` which
-contains the OCaml version of function `eval` as well as any other
+One interesting feature of Coq is that it can extract and translate functions to other languages (Ocaml, Haskell or Scheme). For example,
+executing the code below would generate a file `imperative.ml` which contains the OCaml version of function `eval` as well as any other
 definitions on which it depends.
 
 ``` {.sourceCode .ocaml}
@@ -107,24 +88,15 @@ Require Import Foo. (*Module in which the function definition is located*)
 Extraction "imperative.ml" eval. (*Filename and function to extract*)
 ```
 
-This means that we can use Coq to not only be used to verify programs,
-but also generate certified programs.
+This means that we can use Coq to not only be used to verify programs, but also generate certified programs.
 
-It is also possible to generate natural-language proofs using tools
-like [Coqatoo](https://github.com/andrew-bedford/coqatoo) and [Pcoq](https://www-sop.inria.fr/lemme/pcoq/), or proof trees using
-[Traf](https://github.com/hide-kawabata/traf).
+It is also possible to generate natural-language proofs using tools like [Coqatoo](https://github.com/andrew-bedford/coqatoo) and [Pcoq](https://www-sop.inria.fr/lemme/pcoq/), or proof trees using [Traf](https://github.com/hide-kawabata/traf).
 
 ## Tactics
-Tactics are functions/algorithms that transform propositions. In this
-section, we will go through a set of basic tactics that can be used to
-prove most theorems (or at least most of those found in Software
-Foundations).
+Tactics are functions/algorithms that transform propositions. In this section, we will go through a set of basic tactics that can be used to prove most theorems (or at least most of those found in Software Foundations).
 
 ### admit
-
-Used to admit that goal or subgoal is true. This tactic can be used to
-temporarily skip over goals/subgoals. If a proof contains an admit, `Admitted`
-must be used instead of `Qed`.
+Used to admit that goal or subgoal is true. This tactic can be used to temporarily skip over goals/subgoals. If a proof contains an admit, `Admitted` must be used instead of `Qed`.
 
 ``` {.coq}
 Lemma modus_ponens:
@@ -149,11 +121,9 @@ Qed.
 ```
 
 ### assert/cut
-Used to assert something and add it to the current context. This can be
-useful if we need an additional hypothesis to solve the current goal.
+Used to assert something and add it to the current context. This can be useful if we need an additional hypothesis to solve the current goal.
 
-In the case of assert (see `xyz_with_assert`), we must demonstrate that
-it is true before it is added to the context.
+In the case of assert (see `xyz_with_assert`), we must demonstrate that it is true before it is added to the context.
 
 ``` {.coq}
 Lemma xyz_with_assert:
@@ -165,10 +135,7 @@ Proof.
 Qed.
 ```
 
-A similar tactic to `assert` is `cut`. In the case of cut (see
-`xyz_with_cut`), we can use it immediately to prove the current goal,
-but will have to prove that the hypothesis added is true before the end
-of the proof.
+A similar tactic to `assert` is `cut`. In the case of cut (see `xyz_with_cut`), we can use it immediately to prove the current goal, but will have to prove that the hypothesis added is true before the end of the proof.
 
     Lemma xyz_with_cut:
       forall (f: bool->bool) x y z, x = y -> y = z -> f x = f z.
@@ -180,8 +147,7 @@ of the proof.
     Qed.
 
 ### assumption
-Used when our current goal is already one of our assumptions (i.e.,
-already present in the context).
+Used when our current goal is already one of our assumptions (i.e., already present in the context).
 
 ``` {.coq}
 Lemma modus_ponens:
@@ -194,8 +160,7 @@ Qed.
 ```
 
 ### destruct
-Used to perform case analyses. In the example below, we use `destruct`
-to prove that the expression is true for all possible values of `b`
+Used to perform case analyses. In the example below, we use `destruct` to prove that the expression is true for all possible values of `b`
 (true and false).
 
 ``` {.coq}
@@ -213,14 +178,11 @@ Proof.
 Qed.
 ```
 
-The main difference between `destruct` and `induction` is that
-`destruct` does not add induction hypotheses to the context.
+The main difference between `destruct` and `induction` is that `destruct` does not add induction hypotheses to the context.
 
 ### exists/eexists
-When we want to prove that something exists, we need to provide Coq with
-a witness (i.e., an instance) and then prove that the goal is true using
-the witness. In the example below, we tell Coq that the value `2` should
-satisfy the equation and then prove by simplying the equation that it
+When we want to prove that something exists, we need to provide Coq with a witness (i.e., an instance) and then prove that the goal is true using
+the witness. In the example below, we tell Coq that the value `2` should satisfy the equation and then prove by simplying the equation that it
 indeed does.
 
     Example one_plus_x : exists x, 1 + x = 3.
@@ -230,8 +192,7 @@ indeed does.
       reflexivity.                (* |- True *)
     Qed.
 
-Use the `eexists` tactic when you need to symbolically manipulate
-propositions (i.e, without instanciating existential variables). This
+Use the `eexists` tactic when you need to symbolically manipulate propositions (i.e, without instanciating existential variables). This
 can be useful when we do not yet know what the witness should be.
 
     Example one_plus_x' : exists x, 1 + x = 3.
@@ -242,13 +203,11 @@ can be useful when we do not yet know what the witness should be.
       reflexivity.                (* True *)
     Qed.
 
-After the `eexists`, the `x` is replaced with `?x`. Before the proof can
-be completed, witnesses/values for each of the `?` variables must be
+After the `eexists`, the `x` is replaced with `?x`. Before the proof can be completed, witnesses/values for each of the `?` variables must be
 found.
 
 ### induction
-Used to perform induction. In the example below, the `induction` tactic
-adds two subgoals/cases to prove: one for each the constructor of
+Used to perform induction. In the example below, the `induction` tactic adds two subgoals/cases to prove: one for each the constructor of
 natural numbers (since `n` is a natural number).
 
     Lemma n_plus_O:
@@ -267,15 +226,12 @@ natural numbers (since `n` is a natural number).
     Qed.
 
 ### intro/intros
-Used to introduce variables and hyptheses into the context. The tactic
-`intro` introduces one variable/hypothesis at a time while `intros`
+Used to introduce variables and hyptheses into the context. The tactic `intro` introduces one variable/hypothesis at a time while `intros`
 introduces them all at once.
 
 ### inversion
-Used to infer the necessary conditions for a hypothesis to be true and
-add them to the current context. For instance, in the example below,
-applying the `inversion` tactic on hypothesis `H : S a = S b` adds
-hypothesis `H1 : a = b` to the context.
+Used to infer the necessary conditions for a hypothesis to be true and add them to the current context. For instance, in the example below,
+applying the `inversion` tactic on hypothesis `H : S a = S b` adds hypothesis `H1 : a = b` to the context.
 
     Lemma successors_equal_implies_equal:
       forall a b, S a = S b -> a = b.
@@ -285,8 +241,7 @@ hypothesis `H1 : a = b` to the context.
       reflexivity.  (* True *)
     Qed.
 
-This tactic is also useful to solve goals that contain an hypothesis
-that is false (recall that false -\> anything is true).
+This tactic is also useful to solve goals that contain an hypothesis that is false (recall that false -\> anything is true).
 
     Lemma false_hypothesis : 1 = 2 -> 1 + 1 = 4.
     Proof.         (* |- 1 = 2 -> 1 + 1 = 4. *)
@@ -305,10 +260,8 @@ Used to finish equality proofs.
     Qed.
 
 ### rewrite
-Used to rewrite expressions which we know are equivalent. For example,
-since we know have as hypothesis `H : x = y`, `rewrite H` replaces
-instances of `x` with `y` in the current goal. Similarly, since we know
-that `H0 : y = z`, `rewrite <- H0` replaces instances of `z` with `y`.
+Used to rewrite expressions which we know are equivalent. For example, since we know have as hypothesis `H : x = y`, `rewrite H` replaces
+instances of `x` with `y` in the current goal. Similarly, since we know that `H0 : y = z`, `rewrite <- H0` replaces instances of `z` with `y`.
 The arrow denotes the direction of the rewrite (it is `->` by default).
 
     Lemma trans_eq :
@@ -321,8 +274,7 @@ The arrow denotes the direction of the rewrite (it is `->` by default).
     Qed.
 
 ### simpl
-Used to simplify expressions. If it is unable to, it will leave the goal
-unchanged. In the example below, `simpl` is able to simplify the
+Used to simplify expressions. If it is unable to, it will leave the goal unchanged. In the example below, `simpl` is able to simplify the
 expression `plus O n` to `n`.
 
     Theorem O_plus_n : forall n : nat, plus O n = n.
@@ -349,17 +301,14 @@ The reason becomes apparent if we look at the definition of `plus`.
         | S n' => S (plus n' m)
       end.
 
-In the case of `plus O n`, Coq matches the first argument `O` and
-returns the second argument `n` (because of `| O => m`). While in the
-case of `plus n O`, Coq is unable to match the first argument `n` with
-either cases (`O` or `S n'`) as it could be either.
+In the case of `plus O n`, Coq matches the first argument `O` and returns the second argument `n` (because of `| O => m`). While in the
+case of `plus n O`, Coq is unable to match the first argument `n` with either cases (`O` or `S n'`) as it could be either.
 
 ### split
 Used to split goals that have a logical and into two goals.
 
 ### unfold
-Used to replace a function with its definition. It is sometimes
-necessary in order to progress.
+Used to replace a function with its definition. It is sometimes necessary in order to progress.
 
     Definition square n := n * n.
     Lemma square_mult : forall n m, square (n * m) = square n * square m.
@@ -370,29 +319,24 @@ necessary in order to progress.
     ...
 
 ## Commands
-Coq includes some useful commands. Here are the ones that I found myself
-using the most often.
+Coq includes some useful commands. Here are the ones that I found myself using the most often.
 
 ### Check
-Used to check the type of an expression. For example, checking the type
-of `plus` returns that it is a function that takes two natural numbers
+Used to check the type of an expression. For example, checking the type of `plus` returns that it is a function that takes two natural numbers
 and returns a natural number.
 
     Check plus.
                                                       plus : nat -> nat -> nat
 
 ### Compute
-Used to evaluate an expression. Useful when testing the definitions of
-functions.
+Used to evaluate an expression. Useful when testing the definitions of functions.
 
     Compute 2+2.
                                                                      = 4 : nat
 
 ### Locate
-Used to learn the meaning behind a notation. For example, we can use it
-to learn which function is called when the `+` operator is used. In this
-case, we can see that the `+` operator can call different functions
-depending on the type of its arguments.
+Used to learn the meaning behind a notation. For example, we can use it to learn which function is called when the `+` operator is used. In this
+case, we can see that the `+` operator can call different functions depending on the type of its arguments.
 
     Locate "+".
                                    Notation                         Scope
@@ -402,23 +346,18 @@ depending on the type of its arguments.
                                    "x + y" := sum x y             : type_scope
 
 ### Print
-Used to print the definition of an expression. For example, printing the
-definition of `nat` reveals that it is a set defined inductively and has
+Used to print the definition of an expression. For example, printing the definition of `nat` reveals that it is a set defined inductively and has
 two constructors.
 
     Print nat.
                               Inductive nat : Set :=  O : nat | S : nat -> nat
 
-Print can also be used to print the \"proof\" of a theorem, although the
-result can be hard to interpret.
+Print can also be used to print the \"proof\" of a theorem, although the result can be hard to interpret.
 
 ### Search
-Used to search among the definitions of currently loaded modules. The
-parameter can be either a type, a keyword or a pattern. Multiple
-parameters can be specified in order to refine the search. For example,
-the following command searches for definitions that involve the type
-`list`, whose name contain `"eq"` and whose type contain something of
-the form `(_ ++ _ = _)`.
+Used to search among the definitions of currently loaded modules. The parameter can be either a type, a keyword or a pattern. Multiple
+parameters can be specified in order to refine the search. For example, the following command searches for definitions that involve the type
+`list`, whose name contain `"eq"` and whose type contain something of the form `(_ ++ _ = _)`.
 
     Search list "eq" (_ ++ _ = _).
 
@@ -430,10 +369,8 @@ the form `(_ ++ _ = _)`.
                 x = nil /\ y = a :: nil \/ x = a :: nil /\ y = nil
 
 ### SearchRewrite
-Same as **Search**, but shows only theorems that can be used to rewrite
-an expression and can only take a pattern as parameter. For example, if
-we are interested in rewriting an expression of the form
-`((_ ++ _) ++ _)`, **SearchRewrite** tells us that there are two
+Same as **Search**, but shows only theorems that can be used to rewrite an expression and can only take a pattern as parameter. For example, if
+we are interested in rewriting an expression of the form `((_ ++ _) ++ _)`, **SearchRewrite** tells us that there are two
 possibilities: `app_assoc` and `app_assoc_reverse`.
 
     SearchRewrite ((_ ++ _) ++ _).
