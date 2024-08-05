@@ -1,12 +1,12 @@
 ---
-id: why-write
-title: Why write?
+id: writing-to-think
+title: Writing to think
 abstract: We write to remember more accurately, orient ourselves and our work, understand better, and evaluate what we think more objectively.
 created: 2024-07-01
 tags: thoughts
 ---
 
-# Why write?
+# Writing to think
 Whenever we gather information to answer a question that solves a problem, we become researchers. We may not always write down our answers and what we've learned, but we often rely on those who did. What some may not realize is that writing is much more than a communication tool, it is a thinking tool. Here are some of the ways that writing has helped me think over the years.
 
 ## Writing to remember
