@@ -52,15 +52,14 @@ int* ptr1 = NULL;    // C
 int* ptr2 = nullptr; // C++
 ```
 
-###### Null checks
-
-
-Check Pointers Before Dereferencing: Before you dereference a pointer, always check if it is nullptr or NULL.
-
+## Null checks
+Before you dereference a pointer, always check if it is nullptr or NULL.
+```
 if (ptr != nullptr) {
     // Safe to dereference ptr
     *ptr = 10;
 }
+```
 
 Use Smart Pointers: In C++, use smart pointers like std::unique_ptr or std::shared_ptr which automatically manage the memory and help avoid null pointer dereferences.
 
@@ -88,3 +87,6 @@ free(ptr);
 ptr = nullptr;
 
 Use Static Analysis Tools: Utilize static analysis tools that can detect potential null pointer dereferences in your code. 
+
+
+It is one of the reasons why the [NSA recommended](https://media.defense.gov/2022/Nov/10/2003112742/-1/-1/0/CSI_SOFTWARE_MEMORY_SAFETY.PDF) to avoid C and C++ if possible and using modern memory-safe languages instead such as C#, Java and Rust.

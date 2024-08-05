@@ -8,6 +8,7 @@ tags: draft, c/c++, clang
 
 # Introduction to clang-tidy
 
+
 ## Installation
 If you are using a Ubuntu-based distribution, LLVM provides [a shell script](https://apt.llvm.org/) to make the installation easier:
 ```

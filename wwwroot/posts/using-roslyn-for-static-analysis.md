@@ -6,9 +6,9 @@ created: 2020-10-01
 tags: c#, static analysis
 ---
 # Using roslyn for static analysis
+Roslyn, also known as the .NET Compiler Platform, is a set of open-source compilers and code analysis APIs for C# and VB.NET developed by Microsoft. It provides tools for parsing, analyzing, and compiling code, making it easier for developers to build code-focused tools and applications, such as static analyzers.
 
 ## Installation
-
 Roslyn is available as a nuget package called [Microsoft.CodeAnalysis](https://www.nuget.org/packages/Microsoft.CodeAnalysis). Some tutorials recommend to install `Microsoft.Net.Compilers`, but this package is now deprecated and results in build errors such as this:
 
 ```

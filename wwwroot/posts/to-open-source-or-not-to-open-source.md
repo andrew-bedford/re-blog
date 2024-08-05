@@ -26,7 +26,7 @@ You could still get this advantage by making your software open and "source-avai
 There are multiple tools (e.g., static analyis tools) and features (e.g., GitHub Pro) that are free to use on open source projects, but that require a paid version for private repositories. By making your project open source, you'll be able to benefit from these.
 
 ### Bus factor
-Simply put, the bus factor refers to the number of people who are essential to maintain a project. If these key individuals were to leave the team suddenly (e.g., hit by a bus), then the project would be at risk of failure. It is something that companies will consider before picking your software. By its very nature, open source projects usually have a higher bus factor because of its open collaborative style. Also, if a project grows stale and stops being maintained, it can always be forked by someone else.
+Simply put, the bus factor refers to the number of people who are essential to maintain a project. If these key individuals were to leave the team suddenly (e.g., hit by a bus), then the project would be at risk of failure. It is something that companies will consider before picking your software. By its very nature, open source projects usually have a higher bus factor because of its open collaborative style. Also, if a project grows stale and stops being maintained, it can always be forked and continued by someone else.
 
 ---
 

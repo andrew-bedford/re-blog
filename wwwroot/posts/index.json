@@ -4,5 +4,7 @@
     "using-roslyn-for-static-analysis.md",
     "writing-to-think.md",
     "to-open-source-or-not-to-open-source.md",
-    "getting-started-with-clang-sanitizers.md"
+    "qualities-of-a-great-static-analyzer.md",
+    "getting-started-with-clang-sanitizers.md",
+    "why-im-creating-another-web-analytics-solution.md"
 ]
