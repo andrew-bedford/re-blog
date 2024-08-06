@@ -30,7 +30,7 @@ Simply put, the bus factor refers to the number of people who are essential to m
 
 ---
 
-## Models
+## Business models
 That's all nice, however to be successful and survive, a company has to be profitable. That is, it should make more money than it spends. So then the question becomes: how to monetize open source projects? Let's look at some of the common open source business models.
 
 ### Freemium
@@ -50,6 +50,11 @@ Companies may start to sponsor your project if it becomes an integral part of th
 
 ### Consulting
 If the software becomes popular enough, depending on its nature, there might be a demand for consulting and training to help companies set it up, use it and extend it.
+
+<!--
+## Licenses
+Depending on the business model being used
+-->
 
 ---
 

@@ -3,8 +3,8 @@
     "quick-introduction-to-coq.md",
     "using-roslyn-for-static-analysis.md",
     "writing-to-think.md",
+    "why-im-creating-another-web-analytics-solution.md",
     "to-open-source-or-not-to-open-source.md",
     "qualities-of-a-great-static-analyzer.md",
-    "getting-started-with-clang-sanitizers.md",
-    "why-im-creating-another-web-analytics-solution.md"
+    "getting-started-with-clang-sanitizers.md"
 ]
