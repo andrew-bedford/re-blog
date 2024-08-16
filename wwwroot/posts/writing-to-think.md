@@ -7,7 +7,7 @@ tags: thoughts
 ---
 
 # Writing to think
-Whenever we gather information to answer a question that solves a problem, we become researchers. We may not always write down our answers and what we've learned, but we often rely on those who did. What some may not realize is that writing is much more than a communication tool, it is a thinking tool. Here are some of the ways that writing has helped me think over the years.
+I've come to realize over the years that writing is much more than simply a communication tool, it is a thinking tool. Here are some of the ways that writing has helped me think over the years.
 
 ## Writing to remember
 Solving non-trivial problems often requires lots of research, lots of reading and lots of time. The amount of information involved is often greater than what one can hold in their mind. When dealing with such an amount of information, having some kind of organization system becomes a necessity. Everyone's system is different and changes over time, so I encourage you to try many of them, to take the elements that you like from here and there, and make it your own.
@@ -25,6 +25,6 @@ To write is to think. We do not only write to share our thoughts, but also to re
 Writing also allows us to see larger patterns in what we read. For example, I've been reading lately on leadership and entrepreneurship because I'm thinking of starting a company. By examining all the snippets that resonated with me, I can better identify what kind of leader and entrepreneur I'd like to be. By summarizing and writing it down, I can use it as a goal. If I hadn't taken any notes, I don't think I could have defined it so clearly.
 
 ## Writing to test and improve
-Getting our thoughts out of our heads and onto paper (so to speak) can help us test and validate them. Some ideas may sound great in our heads, but don't hold up once we write them down. Once issues are found, we can improve them.
+Getting our thoughts out of our heads and onto paper (so to speak) can help us test and validate them. Some ideas may sound great in our heads, but don't hold up once we write them down. If issues are found, then we can improve them.
 
 <!-- Like many skills, writing improves through practice and a willingness to accept and learn from criticism. -->

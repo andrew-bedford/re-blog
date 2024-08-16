@@ -2,8 +2,8 @@
 id: getting-started-with-clang-sanitizers
 title: Getting started with clang sanitizers
 abstract: Learn about the different clang sanitizers, 
-created: 2024-07-22
-tags: draft, c/c++, clang
+created: 2024-08-16
+tags: c/c++, clang, dynamic analysis
 ---
 
 # Getting started with clang sanitizers
@@ -32,14 +32,15 @@ That's it, you should now have everything you need to start using sanitizers!
 Once you've recompiled your program with a sanitizer enabled (see below), execute your program as usual. The sanitizer will monitor its execution and report issues on the standard output, if it finds any. Note that clang only allows one sanitizer to be enable at a time.
 
 ### AddressSanitizer
-The AddressSanitizer (ASan) detects memory errors such as out-of-bounds accesses, use-after-free, and memory leaks.
+The AddressSanitizer (ASan) detects memory errors such as out-of-bounds accesses, use-after-free, and memory leaks. It is one of the most used clang sanitizers.
 
-#### Use-after-free
-(dangling pointer dereference)
-#### Use after return
+<!-- #### Use after free -->
+<!-- (dangling pointer dereference) -->
+<!-- #### Use after return -->
 #### Use after scope
+Consider the following example where the address of scoped variable `x` is assigned to the global pointer variable `p`. Once `x` goes out of scope, its address is no longer valid.
 ```cpp
-volatile int *p = 0;
+int* p = 0;
 
 int main() {
   {
@@ -103,20 +104,20 @@ Shadow byte legend (one shadow byte represents 8 application bytes):
   Right alloca redzone:    cb
 ==270877==ABORTING
 ```
-    Heap buffer overflow
-    Stack buffer overflow
-    Global buffer overflow
-    Initialization order bugs
-    Memory leaks
+<!-- Heap buffer overflow
+Stack buffer overflow
+Global buffer overflow
+Initialization order bugs
+Memory leaks -->
 
-### ThreadSanitizer
+<!-- ### ThreadSanitizer
 The ThreadSanitizer (TSan) identifies data races and other threading issues.
 
-### MemorySanitizer
+-### MemorySanitizer
 The MemorySanitizer (MSan) finds uses of uninitialized memory.
 
-### UndefinedBehaviorSanitizer
+-### UndefinedBehaviorSanitizer
 The UndefinedBehaviorSanitizer (UBSan) catches various kinds of undefined behavior, such as integer overflows and invalid type casts.
 
-### LeakSanitizer
-The LeakSanitizer (LSan) specifically targets memory leaks.
+-### LeakSanitizer
+The LeakSanitizer (LSan) specifically targets memory leaks. -->

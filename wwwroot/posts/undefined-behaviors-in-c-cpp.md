@@ -1,31 +1,31 @@
 ---
-id: avoiding-undefined-behaviors-in-c-cpp
-title: Avoiding undefined behaviors in C/C++
-abstract: 
-created: 2024-07-07
-tags: draft, c, c++, static analysis
+id: undefined-behaviors-in-c-cpp
+title: Undefined behaviors in C/C++
+abstract: Learn about some of the most common C/C++ undefined behaviors
+created: 2024-08-02
+tags: c/c++, static analysis
 ---
-# Avoiding undefined behaviors in C/C++
-C and C++ are incredibly powerful programming languages, known for their efficiency and fine-grained control over system resources (e.g., memory). However, this power comes with a caveat: they make it easy to “shoot yourself in the foot” (a quote by [Bjarne Stroustrup](https://www.stroustrup.com/quotes.html), the creator of C++). This phrase highlights the potential pitfalls, such as undefined behaviors and subtle bugs, that can arise from improper memory management, pointer arithmetic, and other low-level operations.
+# Undefined behaviors in C/C++
+C and C++ are incredibly powerful programming languages, known for their efficiency and fine-grained control over system resources (e.g., memory). However, this power comes with a caveat: they make it easy to “shoot yourself in the foot” (a quote by [Bjarne Stroustrup](https://www.stroustrup.com/quotes.html), the creator of C++). This is because of undefined behaviors and subtle bugs that can arise from improper memory management, pointer arithmetic and other low-level operations permitted by C/C++.
 
 ## What do we mean by undefined behavior?
 [Undefined behavior (UB)](https://en.m.wikipedia.org/wiki/Undefined_behavior) refers to code whose behavior is unpredictable according to the language specification. When a program executes an operation that has an undefined behavior, the language specification does not specify what should happen. It could lead the program to crash, produce incorrect results, lose/corrupt data, or behave differently depending on the compiler and environment being used. They can also lead to security vulnerabilities, which could potentially be exploited to execute malicious code and gain privileges.
 
-Undefined behaviors can be triggered in many ways, but the ones below are some of the most common ones in C/C++.
+Undefined behaviors can be triggered in many ways, but here are some of the most common ones in C/C++.
 
 ### Dereferencing a null pointer
-A pointer in C and C++ is a variable that stores a memory address, allowing direct manipulation of data and efficient memory management. A pointer to null, also known as a *null pointer*, is created by assigning `0`, `NULL`, or in the case of C++ `nullptr` to a pointer variable. A null pointer doesn't point to a valid object, nor to a valid memory location. For this reason, attempt to access the memory pointed by such a pointer (i.e., derefencing) is undefined behavior.
+A pointer in C and C++ is a variable that stores a memory address, allowing direct manipulation of data and efficient memory management. A pointer to null, also known as a *null pointer*, is created by assigning `0`, `NULL`, or in the case of C++ `nullptr` to a pointer variable. A null pointer doesn't point to a valid object, nor to a valid memory location. For this reason, attempting to access the memory pointed by such a pointer (i.e., derefencing) is undefined behavior.
 ```
 int* ptr = nullptr;
 int value = *ptr; // UB
 ```
-This typically results in the program to crash, or in the case of a kernel driver, the whole system to crash.
+This typically results in the program to crash, or even the whole system in the case of kernel drivers.
 
-https://blog.bytehackr.in/understanding-and-preventing-null-pointer-dereference
-https://www.sonarsource.com/blog/what-code-issues-caused-the-crowdstrike-outage/
+<!-- https://blog.bytehackr.in/understanding-and-preventing-null-pointer-dereference
+https://www.sonarsource.com/blog/what-code-issues-caused-the-crowdstrike-outage/ -->
 
 ### Uninitialized variables
-This may come as a surprise for people coming from other languages, but C/C++ doesn't initialize built-in type variables (e.g., `int`, `char`, `float`) to a default value. This is because the act of initializing a variable comes with a slight computational overhead. Instead, the value will be whatever value is stored in the address at the time of initialization, so usually garbage.
+This may come as a surprise for people coming from other languages, but C/C++ doesn't initialize built-in type variables (e.g., `int`, `char`, `float`) to a default value. This is because the act of initializing a variable comes with a slight computational overhead. Instead, the value will be whatever is stored in the address at the time of initialization, so usually garbage.
 ```
 int x;
 printf("%d", x); // UB: The memory of x is uninitialized, so it contains a random value.
@@ -41,22 +41,27 @@ Point origin; // Members origin.x and origin.y are not initialized
 ```
 
 ### Out-of-bounds reads and write
-Accessing out-of-bounds memory can cause segmentation faults or corrupt memory.
+Accessing out-of-bounds memory can cause segmentation faults or corrupt memory. I remember being surprised to see that the compiler would allow this the first time I tried, but it did, and it still does.
 ```
 int array[5] = { 1, 2, 3, 4, 5 };
 array[10] = 32; // UB
 ```
+Fortunately, compilers today are smarter than they were 25 years ago and `clang` will emit a warning in this case:
+```
+warning: array index 10 is past the end of the array (which contains 5 elements) [-Warray-bounds]
+```
+But it won't in the case where the index in not a constant literal, a more thorough analysis of the program would be required.
 
 ### Integer overflow
+Adding or substracting an integer beyond its limit is considered undefined behaviour and compilers may handle it differently. For example, in the case below, some compilers might assign `INT_MAX` to `y`, while others might wraparound and return `-INT_MAX`.
 ```
 int x = INT_MAX;
 int y = x + 1; // UB
 ```
-Some compilers may assign `INT_MAX` to `y`, while others may wraparound and return `-INT_MAX`.
 
 
-# How to avoid undefined behaviors?
-## Initialize variables
+<!-- # How to avoid undefined behaviors?
+-## Initialize variables
 Always initialize variables, especially pointers, when you declare them. If you don’t have a valid address to assign, set them to `NULL` in C or `nullptr` in C++.
 ```
 int x{};
@@ -64,7 +69,7 @@ int* ptr1 = NULL;    // C
 int* ptr2 = nullptr; // C++
 ```
 
-## Null checks
+-## Null checks
 Before you dereference a pointer, always check if it is nullptr or NULL.
 ```
 if (ptr != nullptr) {
@@ -101,6 +106,6 @@ ptr = nullptr;
 Use Static Analysis Tools: Utilize static analysis tools that can detect potential null pointer dereferences in your code. 
 
 
-## Languages
+-## Languages
 
-It is one of the reasons why the [NSA recommended](https://media.defense.gov/2022/Nov/10/2003112742/-1/-1/0/CSI_SOFTWARE_MEMORY_SAFETY.PDF) to avoid using those languages if possible and using modern languages instead (e.g., C#, Java, Rust).
+It is one of the reasons why the [NSA recommended](https://media.defense.gov/2022/Nov/10/2003112742/-1/-1/0/CSI_SOFTWARE_MEMORY_SAFETY.PDF) to avoid using those languages if possible and using modern languages instead (e.g., C#, Java, Rust). -->

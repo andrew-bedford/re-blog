@@ -8,7 +8,6 @@ tags: draft, c/c++, clang
 
 # Introduction to clang-tidy
 
-
 ## Installation
 If you are using a Ubuntu-based distribution, LLVM provides [a shell script](https://apt.llvm.org/) to make the installation easier:
 ```
@@ -20,4 +19,8 @@ This will install the latest stable version of LLVM by default, which is current
 
 ```
 sudo apt install clang-tidy
+```
+
+```
+clang-tidy --list-checks
 ```
