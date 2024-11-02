@@ -7,7 +7,7 @@ tags: oss, thoughts
 ---
 
 # To open source, or not to open source
-That is the question that every software developer contemplating productizing one of their personal projects and starting their own company asks themselves. And it is one that I've been increasingly asking myself.
+That is the question that every software developer contemplating productizing one of their personal projects and starting their own company asks themselves. And it is one that I've been increasingly asking myself lately.
 
 One might wonder, if the objective is to make enough money to live off your project, then why consider making it open source at all? Because making open source presents some interesting advantages.
 

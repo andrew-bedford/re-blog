@@ -25,7 +25,7 @@ This typically results in the program to crash, or even the whole system in the 
 https://www.sonarsource.com/blog/what-code-issues-caused-the-crowdstrike-outage/ -->
 
 ### Uninitialized variables
-This may come as a surprise for people coming from other languages, but C/C++ doesn't initialize built-in type variables (e.g., `int`, `char`, `float`) to a default value. This is because the act of initializing a variable comes with a slight computational overhead. Instead, the value will be whatever is stored in the address at the time of initialization, so usually garbage.
+This may come as a surprise for people coming from other languages, but C/C++ doesn't initialize built-in type variables (e.g., `bool`, `char`, `int`, `float`) to a default value. This is because the act of initializing a variable comes with a slight computational overhead. Instead, the value will be whatever is stored in the address at the time of initialization, so usually garbage.
 ```
 int x;
 printf("%d", x); // UB: The memory of x is uninitialized, so it contains a random value.

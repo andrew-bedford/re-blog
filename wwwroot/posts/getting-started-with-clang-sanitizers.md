@@ -52,7 +52,7 @@ int main() {
 }
 ```
 ```
-clang -g -fsanitize=address test.cpp
+clang++ -g -fsanitize=address test.cpp
 ```
 ```bash
 ================================================================
@@ -71,7 +71,7 @@ Address 0x7ffea8c87800 is located in stack of thread T0 at offset 32 in frame
 HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
       (longjmp and C++ exceptions *are* supported)
 SUMMARY: AddressSanitizer: stack-use-after-scope /home/abedford/Projects/Sanitizers/test.cpp:8:6 in main
-hadow bytes around the buggy address:
+Shadow bytes around the buggy address:
   0x100055188eb0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
   0x100055188ec0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
   0x100055188ed0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
@@ -110,11 +110,58 @@ Global buffer overflow
 Initialization order bugs
 Memory leaks -->
 
+### MemorySanitizer
+The MemorySanitizer (MSan) finds uses of uninitialized memory. For example, consider the following program which may access uninitialized elements of a array `a`.
+
+```
+#include <stdio.h>
+
+int main(int argc, char** argv) {
+    int* a = new int[10];
+    a[5] = 0; // Only the element at index 5 is initialized
+
+    if (a[argc]) { // Potentially accessing uninitialized memory
+        printf("xx\n");
+    }
+
+    return 0;
+}
+```
+And let's compile it with MSan enabled:
+```
+clang++ -g -fsanitize=memory -fPIE -pie -fno-omit-frame-pointer uninit.cpp 
+```
+Note that if position-independant code is not enabled, then MSan won't work and will output a fatal error when executing the program:
+```
+FATAL: Code 0x615254e78410 is out of application range. Non-PIE build?
+FATAL: MemorySanitizer can not mmap the shadow memory.
+FATAL: Make sure to compile with -fPIE and to link with -pie.
+FATAL: Disabling ASLR is known to cause this error.
+FATAL: If running under GDB, try 'set disable-randomization off'.
+```
+With position-independant code enabled, it should output something like:
+```
+==297842==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x5f947075c550 in main /home/abedford/Projects/Sanitizers/uninit.cpp:7:9
+    #1 0x7fc1d9029d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #2 0x7fc1d9029e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #3 0x5f94706d42a4 in _start (/home/abedford/Projects/Sanitizers/a.out+0x1e2a4) (BuildId: f9a09a40c7ef822e2e738e8ad5979f0c5737d273)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /home/abedford/Projects/Sanitizers/uninit.cpp:7:9 in main
+Exiting
+```
+MSan's output indicates that unitialized memory is being accessed at line 7, which corresponds to the array access `a[argc]`. It is also possibleto track back the location where the unitialized memory was first created using `-fsanitize-memory-track-origins`.
+```
+  Uninitialized value was created by a heap allocation
+    #0 0x5579fb2d7599 in operator new[](unsigned long) (/home/abedford/Projects/Sanitizers/a.out+0xa5599) (BuildId: 63f6043d7b8d28e21e9d81a7f30f5c5a40184bd2)
+    #1 0x5579fb2d85b0 in main /home/abedford/Projects/Sanitizers/uninit.cpp:4:14
+    #2 0x757852029d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+```
+Which reveals that the memory was initialized by a call to `new[]` at line 4, which is correct! This track origins option is great, but it further slows down execution by a factor of ~2, so you may want to only enable it when MSan detects something.
+
 <!-- ### ThreadSanitizer
 The ThreadSanitizer (TSan) identifies data races and other threading issues.
 
--### MemorySanitizer
-The MemorySanitizer (MSan) finds uses of uninitialized memory.
 
 -### UndefinedBehaviorSanitizer
 The UndefinedBehaviorSanitizer (UBSan) catches various kinds of undefined behavior, such as integer overflows and invalid type casts.
