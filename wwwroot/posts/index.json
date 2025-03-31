@@ -9,5 +9,6 @@
     "learning-from-static-analyzers.md",
     "undefined-behaviors-in-c-cpp.md",
     "qualities-of-a-great-static-analyzer.md",
-    "getting-started-with-clang-sanitizers.md"
+    "getting-started-with-clang-sanitizers.md",
+    "modifying-entire-codebases-without-affecting-git-blame.md"
 ]

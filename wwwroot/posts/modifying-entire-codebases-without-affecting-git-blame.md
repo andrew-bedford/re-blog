@@ -14,10 +14,10 @@ git blame --ignore-rev <hash>
 
 That is, for the lines that blame commit `<hash>`, `git blame` would now return the previous commit instead. A file can also be used to store all the commit hashes to ignore. This file can be named however you want, but the convention appears to be to use `.git-blame-ignore-revs`. For example, see the one used by [llvm](https://github.com/llvm/llvm-project/blob/main/.git-blame-ignore-revs):
 ```
-# [libc++][NFC] Apply clang-format on large parts of the code base
+#[libc++][NFC] Apply clang-format on large parts of the code base
 5aa03b648b827128d439f705cd7d57d59673741d
 
-# [clang][NFC] Remove trailing whitespaces and enforce it in lib, include and docs
+#[clang][NFC] Remove trailing whitespaces and enforce it in lib, include and docs
 f6d557ee34b6bbdb1dc32f29e34b4a4a8ad35e81
 ```
 
