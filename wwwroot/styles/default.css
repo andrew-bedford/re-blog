@@ -27,3 +27,4 @@ nav ul li { margin:5px 5px 5px 15px; }
 nav ul li a.active { -webkit-text-stroke: 0.7px var(--mud-palette-text-primary); }
 
 hr { display:block; margin:100px auto; max-width:580px; border-top:solid 1px #C0C0C0; }
+.giscus { margin-top:50px; }

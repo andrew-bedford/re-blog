@@ -18,6 +18,8 @@ Clean default interface with a content navigation pane, which allows users to sk
 Navigate posts using a timeline, previous/next buttons, or left/right keyboard arrows.
 ![](images/timeline.png)
 
+It also optionally supports comments and reactions, which are powered by [Giscus](https://giscus.app/).
+
 ## Usage
 Add markdown files to the `wwwroot/posts` folder and update `index.json`. Posts are expected to have the following YAML header:
 ```
