@@ -34,6 +34,9 @@ For development:
 dotnet watch run
 ```
 
+### Example
+An example of a more complete re/blog can be found in the [andrew-bedford.ca](https://github.com/andrew-bedford/re-blog/tree/andrew-bedford.ca) branch ([personal re/blog](https://blog.andrew-bedford.ca/)). It has some features that are not yet in the `main` branch, like support for comments/reactions through Giscus and sitemap generation.
+
 ## Hosting
 Since this is a WebAssembly application that runs entirely on the client-side, it can be hosted pretty much anywhere. Note however that for direct links to work, the server's 404 page must point to the blog's `index.html`. This is due to the way that Blazor WebAssembly does routing (see [Host and deploy ASP.NET Core Blazor WebAssembly](https://learn.microsoft.com/en-us/aspnet/core/blazor/host-and-deploy/webassembly?view=aspnetcore-8.0#rewrite-urls-for-correct-routing) for explanation).
 
@@ -63,8 +66,8 @@ ErrorDocument 404 /index.html
 ```
 
 ## Tasks
+ - [-] Add support for comments (see branch [andrew-bedford.ca](https://github.com/andrew-bedford/re-blog/tree/andrew-bedford.ca) for giscus integration). Still needs to be integrated into the main branch, ideally through some kind of plugin system.
  - [ ] Add build tasks that would make it easier to publish/deploy the blog.
  - [ ] Create global configuration file to allows users to do things such as set the avatar image, blog name.
  - [ ] Add a plugin system that would allow users to easily customize it.
  - [ ] (?) Add metainformation panel.
- - [ ] (?) Add support for comments.
