@@ -78,7 +78,7 @@
     private HotKeysContext? HotKeysContext;
     private string[]? index;
 
-    async void LocationChanged(object sender, LocationChangedEventArgs e)
+    async void LocationChanged(object? sender, LocationChangedEventArgs e)
     {
         try {
             await JavaScript.InvokeVoidAsync("reAnalytics");

@@ -1,0 +1,36 @@
+@inject IJSRuntime JavaScript
+
+<script src="https://giscus.app/client.js" data-repo="andrew-bedford/re-blog" data-repo-id="R_kgDOLABdZg"
+    data-category="Comments" data-category-id="DIC_kwDOLABdZs4CfNaK" data-mapping="specific" data-strict="0"
+    data-reactions-enabled="1" data-term="@Term" data-emit-metadata="0" data-input-position="bottom" data-theme="light_tritanopia"
+    data-lang="en" crossorigin="anonymous" async>
+</script>
+
+<script>
+    function reloadComments(newTerm) {
+        const iframe = document.querySelector('iframe.giscus-frame'); 
+        if (!iframe) return;
+        iframe.src = iframe.src.substring(0, iframe.src.indexOf('&term=')) + '&term=' + newTerm;
+    }
+</script>
+
+<div class="comments-container"></div>
+
+@code
+{
+    [Parameter] public string? Term { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Term != null)
+        {
+            try {
+                await JavaScript.InvokeVoidAsync("reloadComments", Term);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error reloading comments: {ex.Message}");
+            }
+        }
+    }
+}
