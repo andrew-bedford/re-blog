@@ -17,7 +17,7 @@
 		<PackageReference Include="Toolbelt.Blazor.HotKeys2" Version="3.2.1" />
 	</ItemGroup>
 
-	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+	<Target Name="PostBuild" AfterTargets="Publish">
 		<Exec Command="python Sitemap.py $(Url) $(OutDir)" />
 	</Target>
 </Project>
