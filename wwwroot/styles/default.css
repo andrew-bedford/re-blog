@@ -19,6 +19,7 @@ post a { text-decoration:underline; }
 post li { list-style-type: square; margin-left:15px;}
 post pre { margin:20px 0; font-size: 13px; }
 post p { font-size:16.5px; line-height:25.56px; margin-bottom:13px; }
+post .mud-progress-circular { height:40px; left:calc(50vw-(40px/2)); position:absolute; text-align:left; top:calc(50vh-(40px/2)); width:40px; }
 
 .mud-drawer { top:calc(var(--mud-appbar-height) - var(--mud-appbar-height)/4) !important; }
 

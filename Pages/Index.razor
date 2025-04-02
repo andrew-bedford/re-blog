@@ -58,6 +58,10 @@
             <Re.Blog.Components.Comments Term="@Application.ActivePost.Title" />
         </MudContainer>
     </post>
+} else {
+    <post>
+        <MudProgressCircular Indeterminate="true" Color="Color.Primary" Size="Size.Medium"  />
+    </post>
 }
 
 <MudScrollToTop style="z-index:2000;">
