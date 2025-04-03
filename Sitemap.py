@@ -8,7 +8,7 @@ from xml.etree import ElementTree
 
 def get_post_last_modification_date(file_name):
     """
-    Returns the last modification date of the given file as an ISO 8601 formatted string.
+    Returns the last modification date of the given file.
     """
     try:
         file_path = os.path.join(output_directory, "posts", file_name)
@@ -16,8 +16,7 @@ def get_post_last_modification_date(file_name):
         timestamp = os.path.getmtime(file_path)
         # Convert the timestamp to a datetime object
         last_mod_date = datetime.datetime.fromtimestamp(timestamp)
-        # Return the date in ISO 8601 format
-        return last_mod_date.isoformat()
+        return last_mod_date.strftime("%Y-%m-%d")
     except FileNotFoundError:
         print(f"File not found: {file_path}")
         return None
@@ -61,7 +60,7 @@ def generate_sitemap(domain, output_directory):
 
     
 if __name__ == "__main__":
-    print("Generating sitemap.xml")
     domain = sys.argv[1]
     output_directory = os.path.join(os.path.dirname(__file__), sys.argv[2], "publish", "wwwroot")
+    print("Generating sitemap: " + os.path.join(output_directory, "sitemap.xml"))
     generate_sitemap(domain, output_directory)
