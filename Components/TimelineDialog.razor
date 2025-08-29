@@ -3,27 +3,45 @@
 
 <MudDialog>
     <DialogContent>
-        <!-- TODO: We should only apply `margin-left:-50%` on screens above a certain resolution -->
-        <MudTimeline style="margin-left:-50%" >
+        <MudHidden Breakpoint="Breakpoint.SmAndDown">
+            <MudTimeline style="margin-left:-50%" >
+                @foreach (var group in GroupPostsByMonths())
+                {
+                    <MudTimelineItem Color="Color.Dark" Elevation="25" TimelineAlign="TimelineAlign.End">
+                        <ItemOpposite>
+                            <MudText Color="Color.Dark" Typo="Typo.h6">@group.Key</MudText>
+                        </ItemOpposite>
+                        <ItemContent>
+                            @foreach (var post in group)
+                            {
+                                <MudPaper Elevation="0">
+                                    <MudLink Color="Color.Dark" GutterBottom="true" Href="@("posts/"+post.Id)" OnClick="@(() => OnClickPostLink(post) )" Style="@GetPostLinkStyle(post)" Typo="Typo.h6">@post.Title</MudLink>
+                                    <!-- Optionally display and abstract below the post's title -->
+                                    @* <MudText Typo="Typo.body2">@post.Abstract</MudText> *@
+                                </MudPaper>
+                            }
+                        </ItemContent>
+                    </MudTimelineItem>
+                }
+            </MudTimeline>
+        </MudHidden>
+
+        <!-- For small screens, we use a simple list instead of a timeline -->
+        <MudHidden Breakpoint="Breakpoint.SmAndDown" Invert="true">
             @foreach (var group in GroupPostsByMonths())
             {
-                <MudTimelineItem Color="Color.Dark" Elevation="25" TimelineAlign="TimelineAlign.End">
-                    <ItemOpposite>
-                        <MudText Color="Color.Dark" Typo="Typo.h6">@group.Key</MudText>
-                    </ItemOpposite>
-                    <ItemContent>
-                        @foreach (var post in group)
-                        {
-                            <MudPaper Elevation="0">
-                                <MudLink Color="Color.Dark" GutterBottom="true" Href="@("posts/"+post.Id)" OnClick="@(() => OnClickPostLink(post) )" Style="@GetPostLinkStyle(post)" Typo="Typo.h6">@post.Title</MudLink>
-                                <!-- Optionally display and abstract below the post's title -->
-                                @* <MudText Typo="Typo.body2">@post.Abstract</MudText> *@
-                            </MudPaper>
-                        }
-                    </ItemContent>
-                </MudTimelineItem>
+                <MudText Color="Color.Dark" Typo="Typo.h6">@group.Key</MudText>
+                <MudList Dense="true">
+                    @foreach (var post in group)
+                    {
+                        <MudListItem>
+                            <MudLink Color="Color.Dark" GutterBottom="true" Href="@("posts/"+post.Id)" OnClick="@(() => OnClickPostLink(post) )" Style="@GetPostLinkStyle(post)" Typo="Typo.h6">@post.Title</MudLink>
+                        </MudListItem>
+                    }
+                </MudList>
+                <MudDivider Class="my-2" />
             }
-        </MudTimeline>
+        </MudHidden>
 
     </DialogContent>
     <DialogActions>
